@@ -106,36 +106,6 @@ Usuários com role `ADMIN` possuem acesso a um painel administrativo com:
 
 ---
 
-## 🖼️ Screenshots
-
-> Crie a pasta `docs/screenshots` no repositório e salve as imagens com os nomes abaixo.
-
-### Home
-
-![Home do GameHub](docs/screenshots/home.png)
-
-### Catálogo
-
-![Catálogo de jogos](docs/screenshots/games.png)
-
-### Detalhes do jogo
-
-![Página de detalhes](docs/screenshots/game-details.png)
-
-### Biblioteca
-
-![Biblioteca do usuário](docs/screenshots/library.png)
-
-### Administração
-
-![Painel administrativo](docs/screenshots/admin.png)
-
-### Importação IGDB
-
-![Importação de jogos pela IGDB](docs/screenshots/igdb-import.png)
-
----
-
 ## 🧱 Arquitetura
 
 ```text
@@ -626,5 +596,4 @@ Projeto criado para estudo e aplicação prática de desenvolvimento full stack,
 
 Este projeto pode ser utilizado como projeto pessoal e educacional.
 
-Se desejar disponibilizá-lo publicamente como open source, adicione uma licença ao repositório, como MIT.
 
