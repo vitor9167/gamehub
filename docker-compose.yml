@@ -1,0 +1,21 @@
+services:
+  db:
+    image: postgres:17
+    container_name: gamehub-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: gamehub
+      POSTGRES_PASSWORD: gamehub_dev
+      POSTGRES_DB: gamehub
+    ports:
+      - "5432:5432"
+    volumes:
+      - gamehub_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gamehub -d gamehub"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  gamehub_data:

@@ -1,0 +1,296 @@
+
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ==============================
+// ENUMS
+// ==============================
+
+enum GameStatus {
+  WANT_TO_PLAY
+  PLAYING
+  COMPLETED
+  DROPPED
+  PAUSED
+  IN_LIBRARY
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+// ==============================
+// USUÁRIOS
+// ==============================
+
+model User {
+  id           String   @id @default(uuid()) @db.Uuid
+  username     String   @unique @db.VarChar(30)
+  email        String   @unique @db.VarChar(255)
+  passwordHash String
+  displayName  String?  @db.VarChar(100)
+  bio          String?  @db.VarChar(500)
+  avatarUrl    String?  @db.VarChar(2048)
+  
+  role         UserRole @default(USER)
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  library      UserGame[]
+  ratings      Rating[]
+  reviews      Review[]
+  favorites    Favorite[]
+  reviewLikes  ReviewLike[]
+
+  @@index([createdAt])
+}
+
+// ==============================
+// CATÁLOGO DE JOGOS
+// ==============================
+
+model Game {
+  id             String    @id @default(uuid()) @db.Uuid
+  igdbId         Int?      @unique
+  title          String    @db.VarChar(255)
+  slug           String    @unique @db.VarChar(300)
+  description    String?   @db.Text
+  coverUrl       String?   @db.VarChar(2048)
+  releaseDate    DateTime? @db.Date
+  externalSource String?   @db.VarChar(50)
+  externalId     String?   @db.VarChar(100)
+
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  genres         GameGenre[]
+  platforms      GamePlatform[]
+  developers     GameDeveloper[]
+  publishers     GamePublisher[]
+
+  libraryEntries UserGame[]
+  ratings        Rating[]
+  reviews        Review[]
+  favorites      Favorite[]
+
+  @@unique([externalSource, externalId])
+  @@index([title])
+  @@index([releaseDate])
+}
+
+// ==============================
+// GÊNEROS
+// ==============================
+
+model Genre {
+  id    Int    @id @default(autoincrement())
+  name  String @unique @db.VarChar(100)
+
+  games GameGenre[]
+}
+
+// ==============================
+// PLATAFORMAS
+// ==============================
+
+model Platform {
+  id             Int    @id @default(autoincrement())
+  name           String @unique @db.VarChar(100)
+
+  games          GamePlatform[]
+  userGameLinks  UserGamePlatform[]
+}
+
+// ==============================
+// DESENVOLVEDORAS
+// ==============================
+
+model Developer {
+  id    Int    @id @default(autoincrement())
+  name  String @unique @db.VarChar(200)
+
+  games GameDeveloper[]
+}
+
+// ==============================
+// PUBLICADORAS
+// ==============================
+
+model Publisher {
+  id    Int    @id @default(autoincrement())
+  name  String @unique @db.VarChar(200)
+
+  games GamePublisher[]
+}
+
+// ==============================
+// RELACIONAMENTOS DO CATÁLOGO
+// ==============================
+
+model GameGenre {
+  gameId  String @db.Uuid
+  genreId Int
+
+  game    Game   @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  genre   Genre  @relation(fields: [genreId], references: [id], onDelete: Cascade)
+
+  @@id([gameId, genreId])
+  @@index([genreId])
+}
+
+model GamePlatform {
+  gameId     String @db.Uuid
+  platformId Int
+
+  game       Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  platform   Platform @relation(fields: [platformId], references: [id], onDelete: Cascade)
+
+  @@id([gameId, platformId])
+  @@index([platformId])
+}
+
+model GameDeveloper {
+  gameId      String @db.Uuid
+  developerId Int
+
+  game        Game      @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  developer   Developer @relation(fields: [developerId], references: [id], onDelete: Cascade)
+
+  @@id([gameId, developerId])
+  @@index([developerId])
+}
+
+model GamePublisher {
+  gameId      String @db.Uuid
+  publisherId Int
+
+  game        Game      @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  publisher   Publisher @relation(fields: [publisherId], references: [id], onDelete: Cascade)
+
+  @@id([gameId, publisherId])
+  @@index([publisherId])
+}
+
+// ==============================
+// BIBLIOTECA DO USUÁRIO
+// ==============================
+
+model UserGame {
+  id           String     @id @default(uuid()) @db.Uuid
+  userId       String     @db.Uuid
+  gameId       String     @db.Uuid
+  status       GameStatus @default(IN_LIBRARY)
+  playedMinutes Int       @default(0)
+  startedAt    DateTime?  @db.Date
+  completedAt  DateTime?  @db.Date
+  personalTags String[]   @default([])
+
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  game         Game       @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  platforms    UserGamePlatform[]
+
+  @@unique([userId, gameId])
+  @@index([userId, status])
+  @@index([gameId])
+}
+
+// Plataformas efetivamente utilizadas pelo usuário
+
+model UserGamePlatform {
+  userGameId String @db.Uuid
+  platformId Int
+
+  userGame   UserGame @relation(fields: [userGameId], references: [id], onDelete: Cascade)
+  platform   Platform @relation(fields: [platformId], references: [id], onDelete: Cascade)
+
+  @@id([userGameId, platformId])
+  @@index([platformId])
+}
+
+// ==============================
+// NOTAS
+// ==============================
+
+model Rating {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  gameId    String   @db.Uuid
+  score     Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  game      Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, gameId])
+  @@index([gameId, score])
+}
+
+// ==============================
+// REVIEWS
+// ==============================
+
+model Review {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  gameId    String   @db.Uuid
+  body      String   @db.Text
+  isSpoiler Boolean  @default(false)
+  isHidden  Boolean  @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  game      Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, gameId])
+  @@index([gameId, createdAt])
+
+  likes    ReviewLike[]
+}
+
+model ReviewLike {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  reviewId  String   @db.Uuid
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  review    Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, reviewId])
+  @@index([reviewId])
+  @@index([userId])
+}
+
+// ==============================
+// FAVORITOS
+// ==============================
+
+model Favorite {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  gameId    String   @db.Uuid
+
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  game      Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, gameId])
+  @@index([userId, createdAt])
+}
