@@ -11,46 +11,74 @@ export class ReviewsService {
     private readonly prisma: PrismaService,
   ) {}
 
-  async createOrUpdate(
-    userId: string,
-    gameId: string,
-    body: string,
-    isSpoiler = false,
-  ) {
-    const game =
-      await this.prisma.game.findUnique({
-        where: {
-          id: gameId,
-        },
-      });
+async createOrUpdate(
+  userId: string,
+  gameId: string,
+  body: string,
+  isSpoiler = false,
+) {
+  const game =
+    await this.prisma.game.findUnique({
+      where: {
+        id: gameId,
+      },
+    });
 
-    if (!game) {
-      throw new NotFoundException(
-        'Jogo não encontrado.',
-      );
-    }
+  if (!game) {
+    throw new NotFoundException(
+      'Jogo não encontrado.',
+    );
+  }
 
-    return this.prisma.review.upsert({
+  const existingReview =
+    await this.prisma.review.findUnique({
       where: {
         userId_gameId: {
           userId,
           gameId,
         },
       },
-
-      update: {
-        body,
-        isSpoiler,
-      },
-
-      create: {
-        userId,
-        gameId,
-        body,
-        isSpoiler,
-      },
     });
-  }
+
+  return this.prisma.$transaction(
+    async (tx) => {
+      const review =
+        await tx.review.upsert({
+          where: {
+            userId_gameId: {
+              userId,
+              gameId,
+            },
+          },
+
+          update: {
+            body,
+            isSpoiler,
+          },
+
+          create: {
+            userId,
+            gameId,
+            body,
+            isSpoiler,
+          },
+        });
+
+      if (!existingReview) {
+        await tx.activity.create({
+          data: {
+            type: 'REVIEW_CREATED',
+            userId,
+            gameId,
+            reviewId: review.id,
+          },
+        });
+      }
+
+      return review;
+    },
+  );
+}
 
   async getByGame(gameId: string) {
   const game = await this.prisma.game.findUnique({

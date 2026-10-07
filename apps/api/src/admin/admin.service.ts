@@ -40,6 +40,7 @@ export class AdminService {
       displayName: true,
       role: true,
       createdAt: true,
+      lastLoginAt: true,
     },
 
     orderBy: {

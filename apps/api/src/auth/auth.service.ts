@@ -138,62 +138,73 @@ export class AuthService {
     }
   }
 
-  async login(dto: LoginDto) {
-    const user =
-      await this.prisma.user.findUnique({
-        where: {
-          email: dto.email,
-        },
-      });
+ async login(dto: LoginDto) {
+  const user =
+    await this.prisma.user.findUnique({
+      where: {
+        email: dto.email,
+      },
+    });
 
-    if (!user) {
-      throw new UnauthorizedException(
-        'Email ou senha inválidos.',
-      );
-    }
+  if (!user) {
+    throw new UnauthorizedException(
+      'Email ou senha inválidos.',
+    );
+  }
 
-    const passwordMatches =
-      await bcrypt.compare(
-        dto.password,
-        user.passwordHash,
-      );
+  const passwordMatches =
+    await bcrypt.compare(
+      dto.password,
+      user.passwordHash,
+    );
 
-    if (!passwordMatches) {
-      throw new UnauthorizedException(
-        'Email ou senha inválidos.',
-      );
-    }
+  if (!passwordMatches) {
+    throw new UnauthorizedException(
+      'Email ou senha inválidos.',
+    );
+  }
 
-    const accessToken =
-      await this.jwtService.signAsync({
-        sub: user.id,
-        username: user.username,
-        email: user.email,
-        role: user.role,
-      });
-
-    return {
-      user: {
+  const updatedUser =
+    await this.prisma.user.update({
+      where: {
         id: user.id,
-        username:
-          user.username,
-        email:
-          user.email,
-        displayName:
-          user.displayName,
-        bio:
-          user.bio,
-        avatarUrl:
-          user.avatarUrl,
-        role:
-          user.role,
-        createdAt:
-          user.createdAt,
       },
 
-      accessToken,
-    };
-  }
+      data: {
+        lastLoginAt: new Date(),
+      },
+
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        displayName: true,
+        bio: true,
+        avatarUrl: true,
+        role: true,
+        createdAt: true,
+        lastLoginAt: true,
+        isProfilePublic: true,
+        isLibraryPublic: true,
+      },
+    });
+
+  const accessToken =
+    await this.jwtService.signAsync({
+      sub: updatedUser.id,
+      username:
+        updatedUser.username,
+      email:
+        updatedUser.email,
+      role:
+        updatedUser.role,
+    });
+
+  return {
+    user: updatedUser,
+    accessToken,
+  };
+}
 
   async getMe(userId: string) {
     const user =
@@ -211,6 +222,8 @@ export class AuthService {
           avatarUrl: true,
           role: true,
           createdAt: true,
+          isProfilePublic: true,
+          isLibraryPublic: true,
         },
       });
 
@@ -246,14 +259,13 @@ export class AuthService {
       },
 
       data: {
-        displayName:
-          dto.displayName,
-
-        bio:
-          dto.bio,
-
-        avatarUrl:
-          dto.avatarUrl,
+        displayName: dto.displayName,
+        bio: dto.bio,
+        avatarUrl: dto.avatarUrl,
+        isProfilePublic:
+          dto.isProfilePublic,
+        isLibraryPublic:
+          dto.isLibraryPublic,
       },
 
       select: {
@@ -265,6 +277,8 @@ export class AuthService {
         avatarUrl: true,
         role: true,
         createdAt: true,
+        isProfilePublic: true,
+        isLibraryPublic: true,
       },
     });
   }

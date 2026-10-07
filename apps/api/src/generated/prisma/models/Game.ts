@@ -272,6 +272,7 @@ export type GameWhereInput = {
   ratings?: Prisma.RatingListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
   favorites?: Prisma.FavoriteListRelationFilter
+  activities?: Prisma.ActivityListRelationFilter
 }
 
 export type GameOrderByWithRelationInput = {
@@ -294,6 +295,7 @@ export type GameOrderByWithRelationInput = {
   ratings?: Prisma.RatingOrderByRelationAggregateInput
   reviews?: Prisma.ReviewOrderByRelationAggregateInput
   favorites?: Prisma.FavoriteOrderByRelationAggregateInput
+  activities?: Prisma.ActivityOrderByRelationAggregateInput
 }
 
 export type GameWhereUniqueInput = Prisma.AtLeast<{
@@ -320,6 +322,7 @@ export type GameWhereUniqueInput = Prisma.AtLeast<{
   ratings?: Prisma.RatingListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
   favorites?: Prisma.FavoriteListRelationFilter
+  activities?: Prisma.ActivityListRelationFilter
 }, "id" | "igdbId" | "slug" | "externalSource_externalId">
 
 export type GameOrderByWithAggregationInput = {
@@ -378,6 +381,7 @@ export type GameCreateInput = {
   ratings?: Prisma.RatingCreateNestedManyWithoutGameInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutGameInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutGameInput
+  activities?: Prisma.ActivityCreateNestedManyWithoutGameInput
 }
 
 export type GameUncheckedCreateInput = {
@@ -400,6 +404,7 @@ export type GameUncheckedCreateInput = {
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutGameInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutGameInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutGameInput
+  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutGameInput
 }
 
 export type GameUpdateInput = {
@@ -422,6 +427,7 @@ export type GameUpdateInput = {
   ratings?: Prisma.RatingUpdateManyWithoutGameNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutGameNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutGameNestedInput
+  activities?: Prisma.ActivityUpdateManyWithoutGameNestedInput
 }
 
 export type GameUncheckedUpdateInput = {
@@ -444,6 +450,7 @@ export type GameUncheckedUpdateInput = {
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutGameNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutGameNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutGameNestedInput
+  activities?: Prisma.ActivityUncheckedUpdateManyWithoutGameNestedInput
 }
 
 export type GameCreateManyInput = {
@@ -548,16 +555,17 @@ export type GameScalarRelationFilter = {
   isNot?: Prisma.GameWhereInput
 }
 
+export type GameNullableScalarRelationFilter = {
+  is?: Prisma.GameWhereInput | null
+  isNot?: Prisma.GameWhereInput | null
+}
+
 export type NullableIntFieldUpdateOperationsInput = {
   set?: number | null
   increment?: number
   decrement?: number
   multiply?: number
   divide?: number
-}
-
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
 }
 
 export type GameCreateNestedOneWithoutGenresInput = {
@@ -672,6 +680,22 @@ export type GameUpdateOneRequiredWithoutFavoritesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.GameUpdateToOneWithWhereWithoutFavoritesInput, Prisma.GameUpdateWithoutFavoritesInput>, Prisma.GameUncheckedUpdateWithoutFavoritesInput>
 }
 
+export type GameCreateNestedOneWithoutActivitiesInput = {
+  create?: Prisma.XOR<Prisma.GameCreateWithoutActivitiesInput, Prisma.GameUncheckedCreateWithoutActivitiesInput>
+  connectOrCreate?: Prisma.GameCreateOrConnectWithoutActivitiesInput
+  connect?: Prisma.GameWhereUniqueInput
+}
+
+export type GameUpdateOneWithoutActivitiesNestedInput = {
+  create?: Prisma.XOR<Prisma.GameCreateWithoutActivitiesInput, Prisma.GameUncheckedCreateWithoutActivitiesInput>
+  connectOrCreate?: Prisma.GameCreateOrConnectWithoutActivitiesInput
+  upsert?: Prisma.GameUpsertWithoutActivitiesInput
+  disconnect?: Prisma.GameWhereInput | boolean
+  delete?: Prisma.GameWhereInput | boolean
+  connect?: Prisma.GameWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.GameUpdateToOneWithWhereWithoutActivitiesInput, Prisma.GameUpdateWithoutActivitiesInput>, Prisma.GameUncheckedUpdateWithoutActivitiesInput>
+}
+
 export type GameCreateWithoutGenresInput = {
   id?: string
   igdbId?: number | null
@@ -691,6 +715,7 @@ export type GameCreateWithoutGenresInput = {
   ratings?: Prisma.RatingCreateNestedManyWithoutGameInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutGameInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutGameInput
+  activities?: Prisma.ActivityCreateNestedManyWithoutGameInput
 }
 
 export type GameUncheckedCreateWithoutGenresInput = {
@@ -712,6 +737,7 @@ export type GameUncheckedCreateWithoutGenresInput = {
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutGameInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutGameInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutGameInput
+  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutGameInput
 }
 
 export type GameCreateOrConnectWithoutGenresInput = {
@@ -749,6 +775,7 @@ export type GameUpdateWithoutGenresInput = {
   ratings?: Prisma.RatingUpdateManyWithoutGameNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutGameNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutGameNestedInput
+  activities?: Prisma.ActivityUpdateManyWithoutGameNestedInput
 }
 
 export type GameUncheckedUpdateWithoutGenresInput = {
@@ -770,6 +797,7 @@ export type GameUncheckedUpdateWithoutGenresInput = {
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutGameNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutGameNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutGameNestedInput
+  activities?: Prisma.ActivityUncheckedUpdateManyWithoutGameNestedInput
 }
 
 export type GameCreateWithoutPlatformsInput = {
@@ -791,6 +819,7 @@ export type GameCreateWithoutPlatformsInput = {
   ratings?: Prisma.RatingCreateNestedManyWithoutGameInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutGameInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutGameInput
+  activities?: Prisma.ActivityCreateNestedManyWithoutGameInput
 }
 
 export type GameUncheckedCreateWithoutPlatformsInput = {
@@ -812,6 +841,7 @@ export type GameUncheckedCreateWithoutPlatformsInput = {
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutGameInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutGameInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutGameInput
+  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutGameInput
 }
 
 export type GameCreateOrConnectWithoutPlatformsInput = {
@@ -849,6 +879,7 @@ export type GameUpdateWithoutPlatformsInput = {
   ratings?: Prisma.RatingUpdateManyWithoutGameNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutGameNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutGameNestedInput
+  activities?: Prisma.ActivityUpdateManyWithoutGameNestedInput
 }
 
 export type GameUncheckedUpdateWithoutPlatformsInput = {
@@ -870,6 +901,7 @@ export type GameUncheckedUpdateWithoutPlatformsInput = {
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutGameNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutGameNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutGameNestedInput
+  activities?: Prisma.ActivityUncheckedUpdateManyWithoutGameNestedInput
 }
 
 export type GameCreateWithoutDevelopersInput = {
@@ -891,6 +923,7 @@ export type GameCreateWithoutDevelopersInput = {
   ratings?: Prisma.RatingCreateNestedManyWithoutGameInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutGameInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutGameInput
+  activities?: Prisma.ActivityCreateNestedManyWithoutGameInput
 }
 
 export type GameUncheckedCreateWithoutDevelopersInput = {
@@ -912,6 +945,7 @@ export type GameUncheckedCreateWithoutDevelopersInput = {
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutGameInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutGameInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutGameInput
+  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutGameInput
 }
 
 export type GameCreateOrConnectWithoutDevelopersInput = {
@@ -949,6 +983,7 @@ export type GameUpdateWithoutDevelopersInput = {
   ratings?: Prisma.RatingUpdateManyWithoutGameNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutGameNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutGameNestedInput
+  activities?: Prisma.ActivityUpdateManyWithoutGameNestedInput
 }
 
 export type GameUncheckedUpdateWithoutDevelopersInput = {
@@ -970,6 +1005,7 @@ export type GameUncheckedUpdateWithoutDevelopersInput = {
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutGameNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutGameNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutGameNestedInput
+  activities?: Prisma.ActivityUncheckedUpdateManyWithoutGameNestedInput
 }
 
 export type GameCreateWithoutPublishersInput = {
@@ -991,6 +1027,7 @@ export type GameCreateWithoutPublishersInput = {
   ratings?: Prisma.RatingCreateNestedManyWithoutGameInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutGameInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutGameInput
+  activities?: Prisma.ActivityCreateNestedManyWithoutGameInput
 }
 
 export type GameUncheckedCreateWithoutPublishersInput = {
@@ -1012,6 +1049,7 @@ export type GameUncheckedCreateWithoutPublishersInput = {
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutGameInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutGameInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutGameInput
+  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutGameInput
 }
 
 export type GameCreateOrConnectWithoutPublishersInput = {
@@ -1049,6 +1087,7 @@ export type GameUpdateWithoutPublishersInput = {
   ratings?: Prisma.RatingUpdateManyWithoutGameNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutGameNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutGameNestedInput
+  activities?: Prisma.ActivityUpdateManyWithoutGameNestedInput
 }
 
 export type GameUncheckedUpdateWithoutPublishersInput = {
@@ -1070,6 +1109,7 @@ export type GameUncheckedUpdateWithoutPublishersInput = {
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutGameNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutGameNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutGameNestedInput
+  activities?: Prisma.ActivityUncheckedUpdateManyWithoutGameNestedInput
 }
 
 export type GameCreateWithoutLibraryEntriesInput = {
@@ -1091,6 +1131,7 @@ export type GameCreateWithoutLibraryEntriesInput = {
   ratings?: Prisma.RatingCreateNestedManyWithoutGameInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutGameInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutGameInput
+  activities?: Prisma.ActivityCreateNestedManyWithoutGameInput
 }
 
 export type GameUncheckedCreateWithoutLibraryEntriesInput = {
@@ -1112,6 +1153,7 @@ export type GameUncheckedCreateWithoutLibraryEntriesInput = {
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutGameInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutGameInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutGameInput
+  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutGameInput
 }
 
 export type GameCreateOrConnectWithoutLibraryEntriesInput = {
@@ -1149,6 +1191,7 @@ export type GameUpdateWithoutLibraryEntriesInput = {
   ratings?: Prisma.RatingUpdateManyWithoutGameNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutGameNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutGameNestedInput
+  activities?: Prisma.ActivityUpdateManyWithoutGameNestedInput
 }
 
 export type GameUncheckedUpdateWithoutLibraryEntriesInput = {
@@ -1170,6 +1213,7 @@ export type GameUncheckedUpdateWithoutLibraryEntriesInput = {
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutGameNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutGameNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutGameNestedInput
+  activities?: Prisma.ActivityUncheckedUpdateManyWithoutGameNestedInput
 }
 
 export type GameCreateWithoutRatingsInput = {
@@ -1191,6 +1235,7 @@ export type GameCreateWithoutRatingsInput = {
   libraryEntries?: Prisma.UserGameCreateNestedManyWithoutGameInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutGameInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutGameInput
+  activities?: Prisma.ActivityCreateNestedManyWithoutGameInput
 }
 
 export type GameUncheckedCreateWithoutRatingsInput = {
@@ -1212,6 +1257,7 @@ export type GameUncheckedCreateWithoutRatingsInput = {
   libraryEntries?: Prisma.UserGameUncheckedCreateNestedManyWithoutGameInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutGameInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutGameInput
+  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutGameInput
 }
 
 export type GameCreateOrConnectWithoutRatingsInput = {
@@ -1249,6 +1295,7 @@ export type GameUpdateWithoutRatingsInput = {
   libraryEntries?: Prisma.UserGameUpdateManyWithoutGameNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutGameNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutGameNestedInput
+  activities?: Prisma.ActivityUpdateManyWithoutGameNestedInput
 }
 
 export type GameUncheckedUpdateWithoutRatingsInput = {
@@ -1270,6 +1317,7 @@ export type GameUncheckedUpdateWithoutRatingsInput = {
   libraryEntries?: Prisma.UserGameUncheckedUpdateManyWithoutGameNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutGameNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutGameNestedInput
+  activities?: Prisma.ActivityUncheckedUpdateManyWithoutGameNestedInput
 }
 
 export type GameCreateWithoutReviewsInput = {
@@ -1291,6 +1339,7 @@ export type GameCreateWithoutReviewsInput = {
   libraryEntries?: Prisma.UserGameCreateNestedManyWithoutGameInput
   ratings?: Prisma.RatingCreateNestedManyWithoutGameInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutGameInput
+  activities?: Prisma.ActivityCreateNestedManyWithoutGameInput
 }
 
 export type GameUncheckedCreateWithoutReviewsInput = {
@@ -1312,6 +1361,7 @@ export type GameUncheckedCreateWithoutReviewsInput = {
   libraryEntries?: Prisma.UserGameUncheckedCreateNestedManyWithoutGameInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutGameInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutGameInput
+  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutGameInput
 }
 
 export type GameCreateOrConnectWithoutReviewsInput = {
@@ -1349,6 +1399,7 @@ export type GameUpdateWithoutReviewsInput = {
   libraryEntries?: Prisma.UserGameUpdateManyWithoutGameNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutGameNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutGameNestedInput
+  activities?: Prisma.ActivityUpdateManyWithoutGameNestedInput
 }
 
 export type GameUncheckedUpdateWithoutReviewsInput = {
@@ -1370,6 +1421,7 @@ export type GameUncheckedUpdateWithoutReviewsInput = {
   libraryEntries?: Prisma.UserGameUncheckedUpdateManyWithoutGameNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutGameNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutGameNestedInput
+  activities?: Prisma.ActivityUncheckedUpdateManyWithoutGameNestedInput
 }
 
 export type GameCreateWithoutFavoritesInput = {
@@ -1391,6 +1443,7 @@ export type GameCreateWithoutFavoritesInput = {
   libraryEntries?: Prisma.UserGameCreateNestedManyWithoutGameInput
   ratings?: Prisma.RatingCreateNestedManyWithoutGameInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutGameInput
+  activities?: Prisma.ActivityCreateNestedManyWithoutGameInput
 }
 
 export type GameUncheckedCreateWithoutFavoritesInput = {
@@ -1412,6 +1465,7 @@ export type GameUncheckedCreateWithoutFavoritesInput = {
   libraryEntries?: Prisma.UserGameUncheckedCreateNestedManyWithoutGameInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutGameInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutGameInput
+  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutGameInput
 }
 
 export type GameCreateOrConnectWithoutFavoritesInput = {
@@ -1449,6 +1503,7 @@ export type GameUpdateWithoutFavoritesInput = {
   libraryEntries?: Prisma.UserGameUpdateManyWithoutGameNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutGameNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutGameNestedInput
+  activities?: Prisma.ActivityUpdateManyWithoutGameNestedInput
 }
 
 export type GameUncheckedUpdateWithoutFavoritesInput = {
@@ -1470,6 +1525,111 @@ export type GameUncheckedUpdateWithoutFavoritesInput = {
   libraryEntries?: Prisma.UserGameUncheckedUpdateManyWithoutGameNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutGameNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutGameNestedInput
+  activities?: Prisma.ActivityUncheckedUpdateManyWithoutGameNestedInput
+}
+
+export type GameCreateWithoutActivitiesInput = {
+  id?: string
+  igdbId?: number | null
+  title: string
+  slug: string
+  description?: string | null
+  coverUrl?: string | null
+  releaseDate?: Date | string | null
+  externalSource?: string | null
+  externalId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  genres?: Prisma.GameGenreCreateNestedManyWithoutGameInput
+  platforms?: Prisma.GamePlatformCreateNestedManyWithoutGameInput
+  developers?: Prisma.GameDeveloperCreateNestedManyWithoutGameInput
+  publishers?: Prisma.GamePublisherCreateNestedManyWithoutGameInput
+  libraryEntries?: Prisma.UserGameCreateNestedManyWithoutGameInput
+  ratings?: Prisma.RatingCreateNestedManyWithoutGameInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutGameInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutGameInput
+}
+
+export type GameUncheckedCreateWithoutActivitiesInput = {
+  id?: string
+  igdbId?: number | null
+  title: string
+  slug: string
+  description?: string | null
+  coverUrl?: string | null
+  releaseDate?: Date | string | null
+  externalSource?: string | null
+  externalId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  genres?: Prisma.GameGenreUncheckedCreateNestedManyWithoutGameInput
+  platforms?: Prisma.GamePlatformUncheckedCreateNestedManyWithoutGameInput
+  developers?: Prisma.GameDeveloperUncheckedCreateNestedManyWithoutGameInput
+  publishers?: Prisma.GamePublisherUncheckedCreateNestedManyWithoutGameInput
+  libraryEntries?: Prisma.UserGameUncheckedCreateNestedManyWithoutGameInput
+  ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutGameInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutGameInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutGameInput
+}
+
+export type GameCreateOrConnectWithoutActivitiesInput = {
+  where: Prisma.GameWhereUniqueInput
+  create: Prisma.XOR<Prisma.GameCreateWithoutActivitiesInput, Prisma.GameUncheckedCreateWithoutActivitiesInput>
+}
+
+export type GameUpsertWithoutActivitiesInput = {
+  update: Prisma.XOR<Prisma.GameUpdateWithoutActivitiesInput, Prisma.GameUncheckedUpdateWithoutActivitiesInput>
+  create: Prisma.XOR<Prisma.GameCreateWithoutActivitiesInput, Prisma.GameUncheckedCreateWithoutActivitiesInput>
+  where?: Prisma.GameWhereInput
+}
+
+export type GameUpdateToOneWithWhereWithoutActivitiesInput = {
+  where?: Prisma.GameWhereInput
+  data: Prisma.XOR<Prisma.GameUpdateWithoutActivitiesInput, Prisma.GameUncheckedUpdateWithoutActivitiesInput>
+}
+
+export type GameUpdateWithoutActivitiesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  igdbId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  externalSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  externalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  genres?: Prisma.GameGenreUpdateManyWithoutGameNestedInput
+  platforms?: Prisma.GamePlatformUpdateManyWithoutGameNestedInput
+  developers?: Prisma.GameDeveloperUpdateManyWithoutGameNestedInput
+  publishers?: Prisma.GamePublisherUpdateManyWithoutGameNestedInput
+  libraryEntries?: Prisma.UserGameUpdateManyWithoutGameNestedInput
+  ratings?: Prisma.RatingUpdateManyWithoutGameNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutGameNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutGameNestedInput
+}
+
+export type GameUncheckedUpdateWithoutActivitiesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  igdbId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  externalSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  externalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  genres?: Prisma.GameGenreUncheckedUpdateManyWithoutGameNestedInput
+  platforms?: Prisma.GamePlatformUncheckedUpdateManyWithoutGameNestedInput
+  developers?: Prisma.GameDeveloperUncheckedUpdateManyWithoutGameNestedInput
+  publishers?: Prisma.GamePublisherUncheckedUpdateManyWithoutGameNestedInput
+  libraryEntries?: Prisma.UserGameUncheckedUpdateManyWithoutGameNestedInput
+  ratings?: Prisma.RatingUncheckedUpdateManyWithoutGameNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutGameNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutGameNestedInput
 }
 
 
@@ -1486,6 +1646,7 @@ export type GameCountOutputType = {
   ratings: number
   reviews: number
   favorites: number
+  activities: number
 }
 
 export type GameCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1497,6 +1658,7 @@ export type GameCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   ratings?: boolean | GameCountOutputTypeCountRatingsArgs
   reviews?: boolean | GameCountOutputTypeCountReviewsArgs
   favorites?: boolean | GameCountOutputTypeCountFavoritesArgs
+  activities?: boolean | GameCountOutputTypeCountActivitiesArgs
 }
 
 /**
@@ -1565,6 +1727,13 @@ export type GameCountOutputTypeCountFavoritesArgs<ExtArgs extends runtime.Types.
   where?: Prisma.FavoriteWhereInput
 }
 
+/**
+ * GameCountOutputType without action
+ */
+export type GameCountOutputTypeCountActivitiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ActivityWhereInput
+}
+
 
 export type GameSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1586,6 +1755,7 @@ export type GameSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   ratings?: boolean | Prisma.Game$ratingsArgs<ExtArgs>
   reviews?: boolean | Prisma.Game$reviewsArgs<ExtArgs>
   favorites?: boolean | Prisma.Game$favoritesArgs<ExtArgs>
+  activities?: boolean | Prisma.Game$activitiesArgs<ExtArgs>
   _count?: boolean | Prisma.GameCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["game"]>
 
@@ -1641,6 +1811,7 @@ export type GameInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   ratings?: boolean | Prisma.Game$ratingsArgs<ExtArgs>
   reviews?: boolean | Prisma.Game$reviewsArgs<ExtArgs>
   favorites?: boolean | Prisma.Game$favoritesArgs<ExtArgs>
+  activities?: boolean | Prisma.Game$activitiesArgs<ExtArgs>
   _count?: boolean | Prisma.GameCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type GameIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1657,6 +1828,7 @@ export type $GamePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     ratings: Prisma.$RatingPayload<ExtArgs>[]
     reviews: Prisma.$ReviewPayload<ExtArgs>[]
     favorites: Prisma.$FavoritePayload<ExtArgs>[]
+    activities: Prisma.$ActivityPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2072,6 +2244,7 @@ export interface Prisma__GameClient<T, Null = never, ExtArgs extends runtime.Typ
   ratings<T extends Prisma.Game$ratingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Game$ratingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviews<T extends Prisma.Game$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Game$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   favorites<T extends Prisma.Game$favoritesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Game$favoritesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FavoritePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  activities<T extends Prisma.Game$activitiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Game$activitiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2694,6 +2867,30 @@ export type Game$favoritesArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.FavoriteScalarFieldEnum | Prisma.FavoriteScalarFieldEnum[]
+}
+
+/**
+ * Game.activities
+ */
+export type Game$activitiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Activity
+   */
+  select?: Prisma.ActivitySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Activity
+   */
+  omit?: Prisma.ActivityOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ActivityInclude<ExtArgs> | null
+  where?: Prisma.ActivityWhereInput
+  orderBy?: Prisma.ActivityOrderByWithRelationInput | Prisma.ActivityOrderByWithRelationInput[]
+  cursor?: Prisma.ActivityWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ActivityScalarFieldEnum | Prisma.ActivityScalarFieldEnum[]
 }
 
 /**

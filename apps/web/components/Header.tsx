@@ -121,6 +121,29 @@ export default function Header() {
               </Link>
             )}
 
+            <a
+              href="/community"
+              className={
+                isActive("/community")
+                  ? "active"
+                  : ""
+              }
+            >
+              Comunidade
+            </a>
+
+            <a
+              href="/feed"
+              className={
+                pathname === "/feed"
+                  ? "active"
+                  : ""
+              }
+            >
+              Feed
+            </a>
+
+
             {user && (
               <Link
                 href="/profile"
@@ -136,6 +159,7 @@ export default function Header() {
               </Link>
             )}
 
+             
             {user?.role ===
               "ADMIN" && (
               <Link

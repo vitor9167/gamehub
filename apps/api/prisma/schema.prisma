@@ -1,4 +1,3 @@
-
 generator client {
   provider     = "prisma-client"
   output       = "../src/generated/prisma"
@@ -27,29 +26,46 @@ enum UserRole {
   ADMIN
 }
 
+enum ActivityType {
+  LIBRARY_ADDED
+  LIBRARY_STATUS_CHANGED
+  REVIEW_CREATED
+  RATING_CREATED
+  RATING_UPDATED
+}
+
 // ==============================
 // USUÁRIOS
 // ==============================
 
 model User {
-  id           String   @id @default(uuid()) @db.Uuid
-  username     String   @unique @db.VarChar(30)
-  email        String   @unique @db.VarChar(255)
+  id           String  @id @default(uuid()) @db.Uuid
+  username     String  @unique @db.VarChar(30)
+  email        String  @unique @db.VarChar(255)
   passwordHash String
-  displayName  String?  @db.VarChar(100)
-  bio          String?  @db.VarChar(500)
-  avatarUrl    String?  @db.VarChar(2048)
-  
-  role         UserRole @default(USER)
+  displayName  String? @db.VarChar(100)
+  bio          String? @db.VarChar(500)
+  avatarUrl    String? @db.VarChar(2048)
 
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  lastLoginAt DateTime?
 
-  library      UserGame[]
-  ratings      Rating[]
-  reviews      Review[]
-  favorites    Favorite[]
-  reviewLikes  ReviewLike[]
+  role UserRole @default(USER)
+
+  isProfilePublic Boolean @default(true)
+  isLibraryPublic Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  followers UserFollow[] @relation("UserFollowing")
+  following UserFollow[] @relation("UserFollowers")
+
+  library     UserGame[]
+  ratings     Rating[]
+  reviews     Review[]
+  favorites   Favorite[]
+  reviewLikes ReviewLike[]
+  activities  Activity[]
 
   @@index([createdAt])
 }
@@ -69,18 +85,19 @@ model Game {
   externalSource String?   @db.VarChar(50)
   externalId     String?   @db.VarChar(100)
 
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  genres         GameGenre[]
-  platforms      GamePlatform[]
-  developers     GameDeveloper[]
-  publishers     GamePublisher[]
+  genres     GameGenre[]
+  platforms  GamePlatform[]
+  developers GameDeveloper[]
+  publishers GamePublisher[]
 
   libraryEntries UserGame[]
   ratings        Rating[]
   reviews        Review[]
   favorites      Favorite[]
+  activities     Activity[]
 
   @@unique([externalSource, externalId])
   @@index([title])
@@ -92,8 +109,8 @@ model Game {
 // ==============================
 
 model Genre {
-  id    Int    @id @default(autoincrement())
-  name  String @unique @db.VarChar(100)
+  id   Int    @id @default(autoincrement())
+  name String @unique @db.VarChar(100)
 
   games GameGenre[]
 }
@@ -103,11 +120,11 @@ model Genre {
 // ==============================
 
 model Platform {
-  id             Int    @id @default(autoincrement())
-  name           String @unique @db.VarChar(100)
+  id   Int    @id @default(autoincrement())
+  name String @unique @db.VarChar(100)
 
-  games          GamePlatform[]
-  userGameLinks  UserGamePlatform[]
+  games         GamePlatform[]
+  userGameLinks UserGamePlatform[]
 }
 
 // ==============================
@@ -115,8 +132,8 @@ model Platform {
 // ==============================
 
 model Developer {
-  id    Int    @id @default(autoincrement())
-  name  String @unique @db.VarChar(200)
+  id   Int    @id @default(autoincrement())
+  name String @unique @db.VarChar(200)
 
   games GameDeveloper[]
 }
@@ -126,8 +143,8 @@ model Developer {
 // ==============================
 
 model Publisher {
-  id    Int    @id @default(autoincrement())
-  name  String @unique @db.VarChar(200)
+  id   Int    @id @default(autoincrement())
+  name String @unique @db.VarChar(200)
 
   games GamePublisher[]
 }
@@ -140,8 +157,8 @@ model GameGenre {
   gameId  String @db.Uuid
   genreId Int
 
-  game    Game   @relation(fields: [gameId], references: [id], onDelete: Cascade)
-  genre   Genre  @relation(fields: [genreId], references: [id], onDelete: Cascade)
+  game  Game  @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  genre Genre @relation(fields: [genreId], references: [id], onDelete: Cascade)
 
   @@id([gameId, genreId])
   @@index([genreId])
@@ -151,8 +168,8 @@ model GamePlatform {
   gameId     String @db.Uuid
   platformId Int
 
-  game       Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
-  platform   Platform @relation(fields: [platformId], references: [id], onDelete: Cascade)
+  game     Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  platform Platform @relation(fields: [platformId], references: [id], onDelete: Cascade)
 
   @@id([gameId, platformId])
   @@index([platformId])
@@ -162,8 +179,8 @@ model GameDeveloper {
   gameId      String @db.Uuid
   developerId Int
 
-  game        Game      @relation(fields: [gameId], references: [id], onDelete: Cascade)
-  developer   Developer @relation(fields: [developerId], references: [id], onDelete: Cascade)
+  game      Game      @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  developer Developer @relation(fields: [developerId], references: [id], onDelete: Cascade)
 
   @@id([gameId, developerId])
   @@index([developerId])
@@ -173,8 +190,8 @@ model GamePublisher {
   gameId      String @db.Uuid
   publisherId Int
 
-  game        Game      @relation(fields: [gameId], references: [id], onDelete: Cascade)
-  publisher   Publisher @relation(fields: [publisherId], references: [id], onDelete: Cascade)
+  game      Game      @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  publisher Publisher @relation(fields: [publisherId], references: [id], onDelete: Cascade)
 
   @@id([gameId, publisherId])
   @@index([publisherId])
@@ -185,21 +202,21 @@ model GamePublisher {
 // ==============================
 
 model UserGame {
-  id           String     @id @default(uuid()) @db.Uuid
-  userId       String     @db.Uuid
-  gameId       String     @db.Uuid
-  status       GameStatus @default(IN_LIBRARY)
-  playedMinutes Int       @default(0)
-  startedAt    DateTime?  @db.Date
-  completedAt  DateTime?  @db.Date
-  personalTags String[]   @default([])
+  id            String     @id @default(uuid()) @db.Uuid
+  userId        String     @db.Uuid
+  gameId        String     @db.Uuid
+  status        GameStatus @default(IN_LIBRARY)
+  playedMinutes Int        @default(0)
+  startedAt     DateTime?  @db.Date
+  completedAt   DateTime?  @db.Date
+  personalTags  String[]   @default([])
 
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  game         Game       @relation(fields: [gameId], references: [id], onDelete: Cascade)
-  platforms    UserGamePlatform[]
+  user      User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  game      Game               @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  platforms UserGamePlatform[]
 
   @@unique([userId, gameId])
   @@index([userId, status])
@@ -212,8 +229,8 @@ model UserGamePlatform {
   userGameId String @db.Uuid
   platformId Int
 
-  userGame   UserGame @relation(fields: [userGameId], references: [id], onDelete: Cascade)
-  platform   Platform @relation(fields: [platformId], references: [id], onDelete: Cascade)
+  userGame UserGame @relation(fields: [userGameId], references: [id], onDelete: Cascade)
+  platform Platform @relation(fields: [platformId], references: [id], onDelete: Cascade)
 
   @@id([userGameId, platformId])
   @@index([platformId])
@@ -224,16 +241,16 @@ model UserGamePlatform {
 // ==============================
 
 model Rating {
-  id        String   @id @default(uuid()) @db.Uuid
-  userId    String   @db.Uuid
-  gameId    String   @db.Uuid
-  score     Int
+  id     String @id @default(uuid()) @db.Uuid
+  userId String @db.Uuid
+  gameId String @db.Uuid
+  score  Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  game      Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  game Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
 
   @@unique([userId, gameId])
   @@index([gameId, score])
@@ -244,23 +261,24 @@ model Rating {
 // ==============================
 
 model Review {
-  id        String   @id @default(uuid()) @db.Uuid
-  userId    String   @db.Uuid
-  gameId    String   @db.Uuid
-  body      String   @db.Text
-  isSpoiler Boolean  @default(false)
-  isHidden  Boolean  @default(false)
+  id        String  @id @default(uuid()) @db.Uuid
+  userId    String  @db.Uuid
+  gameId    String  @db.Uuid
+  body      String  @db.Text
+  isSpoiler Boolean @default(false)
+  isHidden  Boolean @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  game      Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  game Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  likes      ReviewLike[]
+  activities Activity[]
 
   @@unique([userId, gameId])
   @@index([gameId, createdAt])
-
-  likes    ReviewLike[]
 }
 
 model ReviewLike {
@@ -269,8 +287,10 @@ model ReviewLike {
   reviewId  String   @db.Uuid
   createdAt DateTime @default(now())
 
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  review    Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  review Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+
+  activities Activity[]
 
   @@unique([userId, reviewId])
   @@index([reviewId])
@@ -282,15 +302,57 @@ model ReviewLike {
 // ==============================
 
 model Favorite {
-  id        String   @id @default(uuid()) @db.Uuid
-  userId    String   @db.Uuid
-  gameId    String   @db.Uuid
+  id     String @id @default(uuid()) @db.Uuid
+  userId String @db.Uuid
+  gameId String @db.Uuid
 
   createdAt DateTime @default(now())
 
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  game      Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  game Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
 
   @@unique([userId, gameId])
   @@index([userId, createdAt])
+}
+
+// ==============================
+// SEGUIDORES
+// ==============================
+
+model UserFollow {
+  id          String   @id @default(uuid()) @db.Uuid
+  followerId  String   @db.Uuid
+  followingId String   @db.Uuid
+  createdAt   DateTime @default(now())
+
+  follower  User @relation("UserFollowing", fields: [followerId], references: [id], onDelete: Cascade)
+  following User @relation("UserFollowers", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@unique([followerId, followingId])
+  @@index([followerId])
+  @@index([followingId])
+}
+
+// ==============================
+// ATIVIDADES
+// ==============================
+
+model Activity {
+  id          String       @id @default(uuid()) @db.Uuid
+  type        ActivityType
+  userId      String       @db.Uuid
+  gameId      String?      @db.Uuid
+  reviewId    String?      @db.Uuid
+  status      GameStatus?
+  ratingScore Int?
+  createdAt   DateTime     @default(now())
+
+  user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  game         Game?       @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  review       Review?     @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  reviewLike   ReviewLike? @relation(fields: [reviewLikeId], references: [id])
+  reviewLikeId String?     @db.Uuid
+
+  @@index([userId, createdAt])
+  @@index([createdAt])
 }

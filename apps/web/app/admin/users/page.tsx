@@ -20,6 +20,7 @@ type AdminUser = {
   displayName: string | null;
   role: "USER" | "ADMIN";
   createdAt: string;
+  lastLoginAt: string | null;
 };
 
 export default function AdminUsersPage() {
@@ -183,6 +184,10 @@ export default function AdminUsersPage() {
                   <th>
                     Cadastro
                   </th>
+
+                  <th>
+                    Último login
+                  </th>
                 </tr>
               </thead>
 
@@ -234,6 +239,16 @@ export default function AdminUsersPage() {
                         ).toLocaleDateString(
                           "pt-BR",
                         )}
+                      </td>
+
+                      <td>
+                        {item.lastLoginAt
+                          ? new Date(
+                              item.lastLoginAt,
+                            ).toLocaleString(
+                              "pt-BR",
+                            )
+                          : "Nunca"}
                       </td>
                     </tr>
                   ),

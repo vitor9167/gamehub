@@ -1,4 +1,5 @@
 import {
+  IsBoolean,
   IsOptional,
   IsString,
   IsUrl,
@@ -20,4 +21,13 @@ export class UpdateProfileDto {
   @IsUrl()
   @MaxLength(2048)
   avatarUrl?: string;
+ 
+  @IsOptional()
+  @IsBoolean()
+  isProfilePublic?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  isLibraryPublic?: boolean;
+
 }

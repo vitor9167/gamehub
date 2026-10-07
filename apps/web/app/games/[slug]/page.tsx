@@ -2,6 +2,7 @@ import LibraryButton from "../../../components/LibraryButton";
 import Header from "../../../components/Header";
 import GameRating from "../../../components/GameRating";
 import GameReviews from "../../../components/GameReviews";
+import { notFound } from "next/navigation";
 
 type Game = {
   id: string;
@@ -47,16 +48,14 @@ async function getGame(
     "http://localhost:4000";
 
   const response = await fetch(
-    `${API_URL}/games/slug/${slug}`,
+    `${API_URL}/games/slug/${encodeURIComponent(slug)}`,
     {
       cache: "no-store",
     },
   );
 
   if (!response.ok) {
-    throw new Error(
-      "Jogo não encontrado.",
-    );
+    notFound();
   }
 
   return response.json();

@@ -449,9 +449,14 @@ export default function GameReviews({
               >
                 <div className="review-header">
                   <div className="review-user">
-                    <strong>
-                      {authorName}
-                    </strong>
+                    <a
+                      href={`/users/${review.user.username}`}
+                      className="review-user-link"
+                    >
+                      <strong>
+                        {authorName}
+                      </strong>
+                    </a>
 
                     {userScore !==
                       null && (

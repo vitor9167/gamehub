@@ -119,3 +119,13 @@ export type ReviewLike = Prisma.ReviewLikeModel
  * 
  */
 export type Favorite = Prisma.FavoriteModel
+/**
+ * Model UserFollow
+ * 
+ */
+export type UserFollow = Prisma.UserFollowModel
+/**
+ * Model Activity
+ * 
+ */
+export type Activity = Prisma.ActivityModel

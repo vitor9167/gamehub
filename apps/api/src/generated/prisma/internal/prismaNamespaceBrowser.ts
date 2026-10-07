@@ -66,7 +66,9 @@ export const ModelName = {
   Rating: 'Rating',
   Review: 'Review',
   ReviewLike: 'ReviewLike',
-  Favorite: 'Favorite'
+  Favorite: 'Favorite',
+  UserFollow: 'UserFollow',
+  Activity: 'Activity'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -93,7 +95,10 @@ export const UserScalarFieldEnum = {
   displayName: 'displayName',
   bio: 'bio',
   avatarUrl: 'avatarUrl',
+  lastLoginAt: 'lastLoginAt',
   role: 'role',
+  isProfilePublic: 'isProfilePublic',
+  isLibraryPublic: 'isLibraryPublic',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -250,6 +255,31 @@ export const FavoriteScalarFieldEnum = {
 } as const
 
 export type FavoriteScalarFieldEnum = (typeof FavoriteScalarFieldEnum)[keyof typeof FavoriteScalarFieldEnum]
+
+
+export const UserFollowScalarFieldEnum = {
+  id: 'id',
+  followerId: 'followerId',
+  followingId: 'followingId',
+  createdAt: 'createdAt'
+} as const
+
+export type UserFollowScalarFieldEnum = (typeof UserFollowScalarFieldEnum)[keyof typeof UserFollowScalarFieldEnum]
+
+
+export const ActivityScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  userId: 'userId',
+  gameId: 'gameId',
+  reviewId: 'reviewId',
+  status: 'status',
+  ratingScore: 'ratingScore',
+  createdAt: 'createdAt',
+  reviewLikeId: 'reviewLikeId'
+} as const
+
+export type ActivityScalarFieldEnum = (typeof ActivityScalarFieldEnum)[keyof typeof ActivityScalarFieldEnum]
 
 
 export const SortOrder = {

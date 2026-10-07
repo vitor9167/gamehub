@@ -24,6 +24,9 @@ type User = {
   avatarUrl: string | null;
 
   role: UserRole;
+
+  isProfilePublic: boolean;
+  isLibraryPublic: boolean;
 };
 
 type AuthContextType = {

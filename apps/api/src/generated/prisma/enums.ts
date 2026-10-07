@@ -27,3 +27,14 @@ export const UserRole = {
 } as const
 
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
+
+
+export const ActivityType = {
+  LIBRARY_ADDED: 'LIBRARY_ADDED',
+  LIBRARY_STATUS_CHANGED: 'LIBRARY_STATUS_CHANGED',
+  REVIEW_CREATED: 'REVIEW_CREATED',
+  RATING_CREATED: 'RATING_CREATED',
+  RATING_UPDATED: 'RATING_UPDATED'
+} as const
+
+export type ActivityType = (typeof ActivityType)[keyof typeof ActivityType]

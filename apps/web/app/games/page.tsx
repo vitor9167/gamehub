@@ -42,6 +42,65 @@ type GamesResponse = {
   };
 };
 
+type PaginationItem =
+  | number
+  | "ellipsis";
+
+function getPaginationItems(
+  currentPage: number,
+  totalPages: number,
+): PaginationItem[] {
+  const items: PaginationItem[] =
+    [];
+
+  if (totalPages <= 7) {
+    for (
+      let page = 1;
+      page <= totalPages;
+      page++
+    ) {
+      items.push(page);
+    }
+
+    return items;
+  }
+
+  items.push(1);
+
+  if (currentPage > 4) {
+    items.push("ellipsis");
+  }
+
+  const start = Math.max(
+    2,
+    currentPage - 2,
+  );
+
+  const end = Math.min(
+    totalPages - 1,
+    currentPage + 2,
+  );
+
+  for (
+    let page = start;
+    page <= end;
+    page++
+  ) {
+    items.push(page);
+  }
+
+  if (
+    currentPage <
+    totalPages - 3
+  ) {
+    items.push("ellipsis");
+  }
+
+  items.push(totalPages);
+
+  return items;
+}
+
 async function getGames(
   search?: string,
   genre?: string,
@@ -49,7 +108,8 @@ async function getGames(
   page = 1,
   limit = 10,
 ): Promise<GamesResponse> {
-  const params = new URLSearchParams();
+  const params =
+    new URLSearchParams();
 
   if (search) {
     params.set(
@@ -89,12 +149,13 @@ async function getGames(
     process.env.NEXT_PUBLIC_API_URL ??
     "http://localhost:4000";
 
-  const response = await fetch(
-    `${API_URL}/games?${queryString}`,
-    {
-      cache: "no-store",
-    },
-  );
+  const response =
+    await fetch(
+      `${API_URL}/games?${queryString}`,
+      {
+        cache: "no-store",
+      },
+    );
 
   if (!response.ok) {
     throw new Error(
@@ -120,10 +181,16 @@ export default async function GamesPage({
   const platform =
     params.platform ?? "";
 
-  const page =
+  const rawPage =
     Number(
       params.page ?? "1",
     );
+
+  const page =
+    Number.isFinite(rawPage) &&
+    rawPage > 0
+      ? rawPage
+      : 1;
 
   const result =
     await getGames(
@@ -138,6 +205,12 @@ export default async function GamesPage({
 
   const pagination =
     result.pagination;
+
+  const paginationItems =
+    getPaginationItems(
+      pagination.page,
+      pagination.totalPages,
+    );
 
   function buildPageUrl(
     pageNumber: number,
@@ -186,7 +259,8 @@ export default async function GamesPage({
             </h1>
 
             <p>
-              Explore o catálogo do GameHub.
+              Explore o catálogo
+              do GameHub.
             </p>
           </div>
 
@@ -236,52 +310,67 @@ export default async function GamesPage({
         {pagination.totalPages >
           1 && (
           <div className="pagination">
-            {page > 1 && (
+            {pagination.page >
+              1 && (
               <a
                 href={buildPageUrl(
-                  page - 1,
+                  pagination.page -
+                    1,
                 )}
+                className="pagination-nav"
               >
                 ← Anterior
               </a>
             )}
 
             <div className="pagination-pages">
-              {Array.from(
-                {
-                  length:
-                    pagination.totalPages,
+              {paginationItems.map(
+                (
+                  item,
+                  index,
+                ) => {
+                  if (
+                    item ===
+                    "ellipsis"
+                  ) {
+                    return (
+                      <span
+                        key={`ellipsis-${index}`}
+                        className="pagination-ellipsis"
+                      >
+                        …
+                      </span>
+                    );
+                  }
+
+                  return (
+                    <a
+                      key={item}
+                      href={buildPageUrl(
+                        item,
+                      )}
+                      className={
+                        item ===
+                        pagination.page
+                          ? "pagination-page active"
+                          : "pagination-page"
+                      }
+                    >
+                      {item}
+                    </a>
+                  );
                 },
-                (_, index) =>
-                  index + 1,
-              ).map(
-                (pageNumber) => (
-                  <a
-                    key={
-                      pageNumber
-                    }
-                    href={buildPageUrl(
-                      pageNumber,
-                    )}
-                    className={
-                      pageNumber ===
-                      page
-                        ? "pagination-active"
-                        : ""
-                    }
-                  >
-                    {pageNumber}
-                  </a>
-                ),
               )}
             </div>
 
-            {page <
+            {pagination.page <
               pagination.totalPages && (
               <a
                 href={buildPageUrl(
-                  page + 1,
+                  pagination.page +
+                    1,
                 )}
+                className="pagination-nav"
               >
                 Próxima →
               </a>

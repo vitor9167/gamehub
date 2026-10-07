@@ -20,6 +20,9 @@ type User = {
   bio: string | null;
   avatarUrl: string | null;
   createdAt: string;
+
+  isProfilePublic: boolean;
+  isLibraryPublic: boolean;
 };
 
 export default function ProfilePage() {
@@ -35,14 +38,28 @@ export default function ProfilePage() {
   const [user, setUser] =
     useState<User | null>(null);
 
-  const [displayName, setDisplayName] =
-    useState("");
+  const [
+    displayName,
+    setDisplayName,
+  ] = useState("");
 
   const [bio, setBio] =
     useState("");
 
-  const [avatarUrl, setAvatarUrl] =
-    useState("");
+  const [
+    avatarUrl,
+    setAvatarUrl,
+  ] = useState("");
+
+  const [
+    isProfilePublic,
+    setIsProfilePublic,
+  ] = useState(true);
+
+  const [
+    isLibraryPublic,
+    setIsLibraryPublic,
+  ] = useState(true);
 
   const [loading, setLoading] =
     useState(true);
@@ -56,11 +73,15 @@ export default function ProfilePage() {
   const [error, setError] =
     useState("");
 
-  const [currentPassword, setCurrentPassword] =
-    useState("");
+  const [
+    currentPassword,
+    setCurrentPassword,
+  ] = useState("");
 
-  const [newPassword, setNewPassword] =
-    useState("");
+  const [
+    newPassword,
+    setNewPassword,
+  ] = useState("");
 
   const [
     changingPassword,
@@ -84,12 +105,13 @@ export default function ProfilePage() {
 
     async function loadProfile() {
       try {
-        const data = await apiJson<User>(
-          "/auth/me",
-          {
-            token,
-          },
-        );
+        const data =
+          await apiJson<User>(
+            "/auth/me",
+            {
+              token,
+            },
+          );
 
         setUser(data);
 
@@ -103,6 +125,14 @@ export default function ProfilePage() {
 
         setAvatarUrl(
           data.avatarUrl ?? "",
+        );
+
+        setIsProfilePublic(
+          data.isProfilePublic,
+        );
+
+        setIsLibraryPublic(
+          data.isLibraryPublic,
         );
 
         setError("");
@@ -134,6 +164,7 @@ export default function ProfilePage() {
       setMessage(
         "Você precisa estar logado.",
       );
+
       return;
     }
 
@@ -141,32 +172,41 @@ export default function ProfilePage() {
     setMessage("");
 
     try {
-      const data = await apiJson<User>(
-        "/auth/me",
-        {
-          method: "PATCH",
-          token,
+      const data =
+        await apiJson<User>(
+          "/auth/me",
+          {
+            method: "PATCH",
 
-          headers: {
-            "Content-Type":
-              "application/json",
+            token,
+
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+
+            body: JSON.stringify({
+              displayName:
+                displayName.trim() ||
+                undefined,
+
+              bio:
+                bio.trim() ||
+                undefined,
+
+              avatarUrl:
+                avatarUrl.trim() ||
+                undefined,
+
+              isProfilePublic,
+
+              isLibraryPublic:
+                isProfilePublic
+                  ? isLibraryPublic
+                  : false,
+            }),
           },
-
-          body: JSON.stringify({
-            displayName:
-              displayName.trim() ||
-              undefined,
-
-            bio:
-              bio.trim() ||
-              undefined,
-
-            avatarUrl:
-              avatarUrl.trim() ||
-              undefined,
-          }),
-        },
-      );
+        );
 
       setUser(data);
 
@@ -180,6 +220,14 @@ export default function ProfilePage() {
 
       setAvatarUrl(
         data.avatarUrl ?? "",
+      );
+
+      setIsProfilePublic(
+        data.isProfilePublic,
+      );
+
+      setIsLibraryPublic(
+        data.isLibraryPublic,
       );
 
       await refreshUser();
@@ -207,6 +255,7 @@ export default function ProfilePage() {
       setPasswordMessage(
         "Você precisa estar logado.",
       );
+
       return;
     }
 
@@ -218,6 +267,7 @@ export default function ProfilePage() {
         "/auth/change-password",
         {
           method: "PATCH",
+
           token,
 
           headers: {
@@ -249,7 +299,10 @@ export default function ProfilePage() {
     }
   }
 
-  if (authLoading || loading) {
+  if (
+    authLoading ||
+    loading
+  ) {
     return (
       <main>
         <Header />
@@ -263,11 +316,17 @@ export default function ProfilePage() {
     );
   }
 
-  if (!authUser || !token) {
+  if (
+    !authUser ||
+    !token
+  ) {
     return null;
   }
 
-  if (error || !user) {
+  if (
+    error ||
+    !user
+  ) {
     return (
       <main>
         <Header />
@@ -287,193 +346,319 @@ export default function ProfilePage() {
       <Header />
 
       <section className="profile-page">
-  <div className="profile-header">
-    {avatarUrl ? (
-      <img
-        className="profile-avatar"
-        src={avatarUrl}
-        alt={`Avatar de ${
-          displayName || user.username
-        }`}
-      />
-    ) : (
-      <div className="profile-avatar-placeholder">
-        {(displayName || user.username)
-          .charAt(0)
-          .toUpperCase()}
-      </div>
-    )}
+        <div className="profile-header">
+          {avatarUrl ? (
+            <img
+              className="profile-avatar"
+              src={avatarUrl}
+              alt={`Avatar de ${
+                displayName ||
+                user.username
+              }`}
+            />
+          ) : (
+            <div className="profile-avatar-placeholder">
+              {(
+                displayName ||
+                user.username
+              )
+                .charAt(0)
+                .toUpperCase()}
+            </div>
+          )}
 
-    <div>
-      <h2>
-        {displayName || user.username}
-      </h2>
+          <div>
+            <h2>
+              {displayName ||
+                user.username}
+            </h2>
 
-      <p>@{user.username}</p>
-    </div>
-  </div>
-
-  <div className="profile-section">
-    <h3>
-      Informações do perfil
-    </h3>
-
-    <p className="profile-section-description">
-      Atualize seu nome de exibição, bio
-      e imagem de perfil.
-    </p>
-
-    <form
-      className="profile-form"
-      onSubmit={handleSubmit}
-    >
-      <label>
-        Nome de exibição
-
-        <input
-          type="text"
-          value={displayName}
-          onChange={(event) =>
-            setDisplayName(
-              event.target.value,
-            )
-          }
-          maxLength={100}
-        />
-      </label>
-
-      <label>
-        Bio
-
-        <textarea
-          value={bio}
-          onChange={(event) =>
-            setBio(
-              event.target.value,
-            )
-          }
-          maxLength={500}
-          rows={5}
-        />
-      </label>
-
-      <label>
-        URL do avatar
-
-        <input
-          type="url"
-          value={avatarUrl}
-          onChange={(event) =>
-            setAvatarUrl(
-              event.target.value,
-            )
-          }
-          placeholder="https://..."
-        />
-      </label>
-
-      <div className="profile-readonly">
-        <div>
-          <strong>Email</strong>
-          <p>{user.email}</p>
+            <p>
+              @{user.username}
+            </p>
+          </div>
         </div>
 
-        <div>
-          <strong>
-            Membro desde
-          </strong>
+        <div className="profile-section">
+          <h3>
+            Informações do perfil
+          </h3>
 
-          <p>
-            {new Date(
-              user.createdAt,
-            ).toLocaleDateString(
-              "pt-BR",
-            )}
+          <p className="profile-section-description">
+            Atualize seu nome de
+            exibição, bio e imagem
+            de perfil.
           </p>
+
+          <form
+            className="profile-form"
+            onSubmit={
+              handleSubmit
+            }
+          >
+            <label>
+              Nome de exibição
+
+              <input
+                type="text"
+                value={
+                  displayName
+                }
+                onChange={(
+                  event,
+                ) =>
+                  setDisplayName(
+                    event.target
+                      .value,
+                  )
+                }
+                maxLength={100}
+              />
+            </label>
+
+            <label>
+              Bio
+
+              <textarea
+                value={bio}
+                onChange={(
+                  event,
+                ) =>
+                  setBio(
+                    event.target
+                      .value,
+                  )
+                }
+                maxLength={500}
+                rows={5}
+              />
+            </label>
+
+            <label>
+              URL do avatar
+
+              <input
+                type="url"
+                value={
+                  avatarUrl
+                }
+                onChange={(
+                  event,
+                ) =>
+                  setAvatarUrl(
+                    event.target
+                      .value,
+                  )
+                }
+                placeholder="https://..."
+              />
+            </label>
+
+            <div className="profile-readonly">
+              <div>
+                <strong>
+                  Email
+                </strong>
+
+                <p>
+                  {user.email}
+                </p>
+              </div>
+
+              <div>
+                <strong>
+                  Membro desde
+                </strong>
+
+                <p>
+                  {new Date(
+                    user.createdAt,
+                  ).toLocaleDateString(
+                    "pt-BR",
+                  )}
+                </p>
+              </div>
+            </div>
+
+            <div className="profile-privacy">
+              <h3>
+                Privacidade
+              </h3>
+
+              <label className="profile-privacy-option">
+                <input
+                  type="checkbox"
+                  checked={
+                    isProfilePublic
+                  }
+                  onChange={(
+                    event,
+                  ) => {
+                    const checked =
+                      event.target
+                        .checked;
+
+                    setIsProfilePublic(
+                      checked,
+                    );
+
+                    if (!checked) {
+                      setIsLibraryPublic(
+                        false,
+                      );
+                    }
+                  }}
+                />
+
+                <div>
+                  <strong>
+                    Perfil público
+                  </strong>
+
+                  <span>
+                    Permite que
+                    outros usuários
+                    encontrem e
+                    visualizem seu
+                    perfil.
+                  </span>
+                </div>
+              </label>
+
+              <label className="profile-privacy-option">
+                <input
+                  type="checkbox"
+                  checked={
+                    isLibraryPublic
+                  }
+                  onChange={(
+                    event,
+                  ) =>
+                    setIsLibraryPublic(
+                      event.target
+                        .checked,
+                    )
+                  }
+                  disabled={
+                    !isProfilePublic
+                  }
+                />
+
+                <div>
+                  <strong>
+                    Exibir minha
+                    biblioteca
+                  </strong>
+
+                  <span>
+                    Permite que
+                    outros usuários
+                    vejam os jogos
+                    da sua
+                    biblioteca.
+                  </span>
+                </div>
+              </label>
+            </div>
+
+            <button
+              type="submit"
+              disabled={saving}
+            >
+              {saving
+                ? "Salvando..."
+                : "Salvar alterações"}
+            </button>
+
+            {message && (
+              <p className="profile-message">
+                {message}
+              </p>
+            )}
+          </form>
         </div>
-      </div>
 
-      <button
-        type="submit"
-        disabled={saving}
-      >
-        {saving
-          ? "Salvando..."
-          : "Salvar alterações"}
-      </button>
+        <div className="password-section">
+          <h3>
+            Segurança
+          </h3>
 
-      {message && (
-        <p className="profile-message">
-          {message}
-        </p>
-      )}
-    </form>
-  </div>
+          <p className="profile-section-description">
+            Altere sua senha de
+            acesso ao GameHub.
+          </p>
 
-  <div className="password-section">
-  <h3>
-    Segurança
-  </h3>
+          <form
+            className="profile-form"
+            onSubmit={
+              handleChangePassword
+            }
+          >
+            <label>
+              Senha atual
 
-  <p className="profile-section-description">
-    Altere sua senha de acesso ao GameHub.
-  </p>
+              <input
+                type="password"
+                value={
+                  currentPassword
+                }
+                onChange={(
+                  event,
+                ) =>
+                  setCurrentPassword(
+                    event.target
+                      .value,
+                  )
+                }
+                minLength={6}
+                autoComplete="current-password"
+                required
+              />
+            </label>
 
-  <form
-    className="profile-form"
-    onSubmit={handleChangePassword}
-  >
-    <label>
-      Senha atual
+            <label>
+              Nova senha
 
-      <input
-        type="password"
-        value={currentPassword}
-        onChange={(event) =>
-          setCurrentPassword(
-            event.target.value,
-          )
-        }
-        minLength={6}
-        autoComplete="current-password"
-        required
-      />
-    </label>
+              <input
+                type="password"
+                value={
+                  newPassword
+                }
+                onChange={(
+                  event,
+                ) =>
+                  setNewPassword(
+                    event.target
+                      .value,
+                  )
+                }
+                minLength={6}
+                autoComplete="new-password"
+                required
+              />
+            </label>
 
-    <label>
-      Nova senha
+            <button
+              type="submit"
+              disabled={
+                changingPassword
+              }
+            >
+              {changingPassword
+                ? "Alterando..."
+                : "Alterar senha"}
+            </button>
 
-      <input
-        type="password"
-        value={newPassword}
-        onChange={(event) =>
-          setNewPassword(
-            event.target.value,
-          )
-        }
-        minLength={6}
-        autoComplete="new-password"
-        required
-      />
-    </label>
-
-    <button
-      type="submit"
-      disabled={changingPassword}
-    >
-      {changingPassword
-        ? "Alterando..."
-        : "Alterar senha"}
-    </button>
-
-    {passwordMessage && (
-      <p className="profile-message">
-        {passwordMessage}
-      </p>
-    )}
-  </form>
-  </div>
-</section>
+            {passwordMessage && (
+              <p className="profile-message">
+                {
+                  passwordMessage
+                }
+              </p>
+            )}
+          </form>
+        </div>
+      </section>
     </main>
   );
 }
