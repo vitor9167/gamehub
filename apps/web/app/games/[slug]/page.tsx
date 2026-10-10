@@ -2,6 +2,9 @@ import LibraryButton from "../../../components/LibraryButton";
 import Header from "../../../components/Header";
 import GameRating from "../../../components/GameRating";
 import GameReviews from "../../../components/GameReviews";
+import GameRecommendations from "../../../components/GameRecommendations";
+import FavoriteLibraryButton from "../../../components/FavoriteLibraryButton";
+
 import { notFound } from "next/navigation";
 
 type Game = {
@@ -38,6 +41,10 @@ type GamePageProps = {
   params: Promise<{
     slug: string;
   }>;
+
+  searchParams: Promise<{
+    tab?: string;
+  }>;
 };
 
 async function getGame(
@@ -63,8 +70,19 @@ async function getGame(
 
 export default async function GamePage({
   params,
+  searchParams,
 }: GamePageProps) {
-  const { slug } = await params;
+  const { slug } =
+    await params;
+
+  const query =
+    await searchParams;
+
+  const activeTab =
+    query.tab ===
+    "recommendations"
+      ? "recommendations"
+      : "overview";
 
   const game =
     await getGame(slug);
@@ -74,33 +92,34 @@ export default async function GamePage({
       <Header />
 
       <section className="game-page">
+        <nav
+          className="game-breadcrumb"
+          aria-label="Breadcrumb"
+        >
+          <a href="/">
+            Início
+          </a>
 
-          <nav
-            className="game-breadcrumb"
-            aria-label="Breadcrumb"
-          >
-            <a href="/">
-              Início
-            </a>
+          <span>/</span>
 
-            <span>/</span>
+          <a href="/games">
+            Jogos
+          </a>
 
-            <a href="/games">
-              Jogos
-            </a>
+          <span>/</span>
 
-            <span>/</span>
-
-            <span>
-              {game.title}
-            </span>
-          </nav>
+          <span>
+            {game.title}
+          </span>
+        </nav>
 
         <div className="game-details">
           <div className="game-details-cover">
             {game.coverUrl ? (
               <img
-                src={game.coverUrl}
+                src={
+                  game.coverUrl
+                }
                 alt={`Capa de ${game.title}`}
               />
             ) : (
@@ -137,15 +156,17 @@ export default async function GamePage({
                         genre.id
                       }
                     >
-                      {genre.name}
+                      {
+                        genre.name
+                      }
                     </span>
                   ),
                 )}
               </div>
             )}
 
-            {game.platforms.length >
-              0 && (
+            {game.platforms
+              .length > 0 && (
               <div className="game-info-row">
                 <strong>
                   Plataformas
@@ -154,7 +175,9 @@ export default async function GamePage({
                 <span>
                   {game.platforms
                     .map(
-                      (platform) =>
+                      (
+                        platform,
+                      ) =>
                         platform.name,
                     )
                     .join(", ")}
@@ -162,8 +185,8 @@ export default async function GamePage({
               </div>
             )}
 
-            {game.developers.length >
-              0 && (
+            {game.developers
+              .length > 0 && (
               <div className="game-info-row">
                 <strong>
                   Desenvolvedor
@@ -172,7 +195,9 @@ export default async function GamePage({
                 <span>
                   {game.developers
                     .map(
-                      (developer) =>
+                      (
+                        developer,
+                      ) =>
                         developer.name,
                     )
                     .join(", ")}
@@ -180,8 +205,8 @@ export default async function GamePage({
               </div>
             )}
 
-            {game.publishers.length >
-              0 && (
+            {game.publishers
+              .length > 0 && (
               <div className="game-info-row">
                 <strong>
                   Publicadora
@@ -190,23 +215,13 @@ export default async function GamePage({
                 <span>
                   {game.publishers
                     .map(
-                      (publisher) =>
+                      (
+                        publisher,
+                      ) =>
                         publisher.name,
                     )
                     .join(", ")}
                 </span>
-              </div>
-            )}
-
-            {game.description && (
-              <div className="game-description-block">
-                <h2>
-                  Sobre o jogo
-                </h2>
-
-                <p className="game-details-description">
-                  {game.description}
-                </p>
               </div>
             )}
 
@@ -220,13 +235,73 @@ export default async function GamePage({
           </div>
         </div>
 
-        <GameRating
-          gameId={game.id}
-        />
+        <nav className="game-tabs">
+          <a
+            href={`/games/${game.slug}`}
+            className={
+              activeTab ===
+              "overview"
+                ? "game-tab active"
+                : "game-tab"
+            }
+          >
+            Visão geral
+          </a>
 
-        <GameReviews
-          gameId={game.id}
-        />
+          <a
+            href={`/games/${game.slug}?tab=recommendations`}
+            className={
+              activeTab ===
+              "recommendations"
+                ? "game-tab active"
+                : "game-tab"
+            }
+          >
+            Recomendações
+          </a>
+        </nav>
+
+        {activeTab ===
+        "overview" ? (
+          <div className="game-tab-content">
+            {game.description && (
+              <div className="game-description-block">
+                <h2>
+                  Sobre o jogo
+                </h2>
+
+                <p className="game-details-description">
+                  {
+                    game.description
+                  }
+                </p>
+              </div>
+            )}
+
+            <GameRating
+              gameId={
+                game.id
+              }
+            />
+
+            <GameReviews
+              gameId={
+                game.id
+              }
+            />
+          </div>
+        ) : (
+          <div className="game-tab-content">
+            <GameRecommendations
+              gameId={
+                game.id
+              }
+              gameTitle={
+                game.title
+              }
+            />
+          </div>
+        )}
       </section>
     </main>
   );

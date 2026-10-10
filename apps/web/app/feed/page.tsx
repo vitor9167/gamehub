@@ -64,9 +64,9 @@ type LibraryActivity = {
   id: string;
   type: "LIBRARY";
 
- activityType:
-  | "LIBRARY_ADDED"
-  | "LIBRARY_STATUS_CHANGED";
+  activityType:
+    | "LIBRARY_ADDED"
+    | "LIBRARY_STATUS_CHANGED";
 
   createdAt: string;
 
@@ -84,10 +84,55 @@ type LibraryActivity = {
   };
 };
 
+type RecommendationAspectType =
+  | "STORY"
+  | "GAMEPLAY"
+  | "MECHANICS"
+  | "ATMOSPHERE"
+  | "EXPLORATION"
+  | "PROGRESSION"
+  | "DIFFICULTY"
+  | "MULTIPLAYER"
+  | "ART_STYLE"
+  | "SOUNDTRACK";
+
+type RecommendationActivity = {
+  id: string;
+  type: "RECOMMENDATION";
+
+  activityType:
+    "RECOMMENDATION_CREATED";
+
+  createdAt: string;
+
+  user: FeedUser;
+  game: FeedGame;
+
+  recommendation: {
+    id: string;
+    body: string;
+
+    recommendedGame: {
+      id: string;
+      title: string;
+      slug: string;
+      coverUrl: string | null;
+    };
+
+    aspects: {
+      id: string;
+      type: RecommendationAspectType;
+    }[];
+
+    supportCount: number;
+  };
+};
+
 type FeedActivity =
   | ReviewActivity
   | LibraryActivity
-  | RatingActivity;
+  | RatingActivity
+  | RecommendationActivity;
 
 type FeedResponse = {
   items: FeedActivity[];
@@ -105,16 +150,65 @@ type FeedFilter =
   | "ALL"
   | "LIBRARY"
   | "REVIEW"
-  | "RATING";
+  | "RATING"
+  | "RECOMMENDATION";
 
-const statusLabels = {
-  WANT_TO_PLAY: "quer jogar",
-  PLAYING: "está jogando",
-  COMPLETED: "concluiu",
-  DROPPED: "abandonou",
-  PAUSED: "pausou",
+const statusLabels: Record<
+  LibraryActivity["library"]["status"],
+  string
+> = {
+  WANT_TO_PLAY:
+    "quer jogar",
+
+  PLAYING:
+    "está jogando",
+
+  COMPLETED:
+    "concluiu",
+
+  DROPPED:
+    "abandonou",
+
+  PAUSED:
+    "pausou",
+
   IN_LIBRARY:
     "adicionou à biblioteca",
+};
+
+const recommendationAspectLabels: Record<
+  RecommendationAspectType,
+  string
+> = {
+  STORY:
+    "História",
+
+  GAMEPLAY:
+    "Gameplay",
+
+  MECHANICS:
+    "Mecânicas",
+
+  ATMOSPHERE:
+    "Atmosfera / Feeling",
+
+  EXPLORATION:
+    "Exploração",
+
+  PROGRESSION:
+    "Progressão",
+
+  DIFFICULTY:
+    "Dificuldade",
+
+  MULTIPLAYER:
+    "Multiplayer",
+
+  ART_STYLE:
+    "Visual / Arte",
+
+  SOUNDTRACK:
+    "Trilha sonora",
 };
 
 function formatDate(
@@ -125,34 +219,46 @@ function formatDate(
   ).toLocaleString(
     "pt-BR",
     {
-      dateStyle: "short",
-      timeStyle: "short",
+      dateStyle:
+        "short",
+
+      timeStyle:
+        "short",
     },
   );
 }
 
 function getLibraryActivityText(
-    activity: LibraryActivity,
-    ) {
-    if (
-        activity.activityType ===
-        "LIBRARY_ADDED"
-    ) {
-        return "adicionou à biblioteca";
-    }
+  activityType:
+    LibraryActivity["activityType"],
 
-    return statusLabels[
-        activity.library.status
-    ];
+  status:
+    LibraryActivity["library"]["status"],
+) {
+  if (
+    activityType ===
+    "LIBRARY_ADDED"
+  ) {
+    return "adicionou à biblioteca";
+  }
+
+  return (
+    statusLabels[
+      status
+    ] ??
+    "atualizou a biblioteca"
+  );
 }
 
 export default function FeedPage() {
-  const router = useRouter();
+  const router =
+    useRouter();
 
   const {
     token,
     user,
-    loading: authLoading,
+    loading:
+      authLoading,
   } = useAuth();
 
   const [
@@ -163,9 +269,12 @@ export default function FeedPage() {
   >([]);
 
   const [
-  filter,
-  setFilter,
-] = useState<FeedFilter>("ALL");
+    filter,
+    setFilter,
+  ] =
+    useState<FeedFilter>(
+      "ALL",
+    );
 
   const [
     page,
@@ -193,15 +302,20 @@ export default function FeedPage() {
   ] = useState("");
 
   const filteredActivities =
-  filter === "ALL"
-    ? activities
-    : activities.filter(
-        (activity) =>
-          activity.type === filter,
-      );
+    filter === "ALL"
+      ? activities
+      : activities.filter(
+          (
+            activity,
+          ) =>
+            activity.type ===
+            filter,
+        );
 
   useEffect(() => {
-    if (authLoading) {
+    if (
+      authLoading
+    ) {
       return;
     }
 
@@ -218,7 +332,9 @@ export default function FeedPage() {
 
     async function loadFeed() {
       try {
-        setLoading(true);
+        setLoading(
+          true,
+        );
 
         const data =
           await apiJson<
@@ -242,14 +358,19 @@ export default function FeedPage() {
         );
 
         setError("");
-      } catch (error) {
+      } catch (
+        error
+      ) {
         setError(
-          error instanceof Error
+          error instanceof
+            Error
             ? error.message
             : "Não foi possível carregar o feed.",
         );
       } finally {
-        setLoading(false);
+        setLoading(
+          false,
+        );
       }
     }
 
@@ -273,7 +394,10 @@ export default function FeedPage() {
     const nextPage =
       page + 1;
 
-    setLoadingMore(true);
+    setLoadingMore(
+      true,
+    );
+
     setError("");
 
     try {
@@ -288,7 +412,9 @@ export default function FeedPage() {
         );
 
       setActivities(
-        (current) => [
+        (
+          current,
+        ) => [
           ...current,
           ...data.items,
         ],
@@ -302,14 +428,19 @@ export default function FeedPage() {
         data.pagination
           .hasMore,
       );
-    } catch (error) {
+    } catch (
+      error
+    ) {
       setError(
-        error instanceof Error
+        error instanceof
+          Error
           ? error.message
           : "Não foi possível carregar mais atividades.",
       );
     } finally {
-      setLoadingMore(false);
+      setLoadingMore(
+        false,
+      );
     }
   }
 
@@ -323,7 +454,8 @@ export default function FeedPage() {
 
         <section className="feed-page">
           <p>
-            Carregando feed...
+            Carregando
+            feed...
           </p>
         </section>
       </main>
@@ -353,70 +485,101 @@ export default function FeedPage() {
             </h1>
 
             <p>
-              Veja o que as pessoas
-              que você segue estão
-              jogando e comentando.
+              Veja o que as
+              pessoas que você
+              segue estão
+              jogando e
+              comentando.
             </p>
           </div>
         </div>
 
         <div className="feed-filters">
-            <button
-                type="button"
-                className={
-                filter === "ALL"
-                    ? "active"
-                    : ""
-                }
-                onClick={() =>
-                setFilter("ALL")
-                }
-            >
-                Todos
-            </button>
+          <button
+            type="button"
+            className={
+              filter ===
+              "ALL"
+                ? "active"
+                : ""
+            }
+            onClick={() =>
+              setFilter(
+                "ALL",
+              )
+            }
+          >
+            Todos
+          </button>
 
-            <button
-                type="button"
-                className={
-                filter === "LIBRARY"
-                    ? "active"
-                    : ""
-                }
-                onClick={() =>
-                setFilter("LIBRARY")
-                }
-            >
-                Biblioteca
-            </button>
+          <button
+            type="button"
+            className={
+              filter ===
+              "LIBRARY"
+                ? "active"
+                : ""
+            }
+            onClick={() =>
+              setFilter(
+                "LIBRARY",
+              )
+            }
+          >
+            Biblioteca
+          </button>
 
-            <button
-                type="button"
-                className={
-                filter === "REVIEW"
-                    ? "active"
-                    : ""
-                }
-                onClick={() =>
-                setFilter("REVIEW")
-                }
-            >
-                Reviews
-            </button>
+          <button
+            type="button"
+            className={
+              filter ===
+              "REVIEW"
+                ? "active"
+                : ""
+            }
+            onClick={() =>
+              setFilter(
+                "REVIEW",
+              )
+            }
+          >
+            Reviews
+          </button>
 
-            <button
-                type="button"
-                className={
-                filter === "RATING"
-                    ? "active"
-                    : ""
-                }
-                onClick={() =>
-                setFilter("RATING")
-                }
-            >
-                Avaliações
-            </button>
-            </div>
+          <button
+            type="button"
+            className={
+              filter ===
+              "RECOMMENDATION"
+                ? "active"
+                : ""
+            }
+            onClick={() =>
+              setFilter(
+                "RECOMMENDATION",
+              )
+            }
+          >
+            Recomendações
+          </button>
+
+          <button
+            type="button"
+            className={
+              filter ===
+              "RATING"
+                ? "active"
+                : ""
+            }
+            onClick={() =>
+              setFilter(
+                "RATING",
+              )
+            }
+          >
+            Avaliações
+          </button>
+        </div>
 
         {error && (
           <div className="empty-state">
@@ -425,30 +588,40 @@ export default function FeedPage() {
         )}
 
         {!error &&
-        filteredActivities.length === 0 ? (
-        <div className="empty-state">
-            {filter === "ALL" ? (
-            <>
+        filteredActivities.length ===
+          0 ? (
+          <div className="empty-state">
+            {filter ===
+            "ALL" ? (
+              <>
                 <p>
-                Seu feed ainda está vazio.
+                  Seu feed
+                  ainda está
+                  vazio.
                 </p>
 
                 <a href="/community">
-                Encontrar pessoas para seguir
+                  Encontrar
+                  pessoas para
+                  seguir
                 </a>
-            </>
+              </>
             ) : (
-            <p>
-                Nenhuma atividade encontrada
+              <p>
+                Nenhuma
+                atividade
+                encontrada
                 neste filtro.
-            </p>
+              </p>
             )}
-        </div>
+          </div>
         ) : (
           <>
             <div className="feed-list">
               {filteredActivities.map(
-                (activity) => (
+                (
+                  activity,
+                ) => (
                   <article
                     key={
                       activity.id
@@ -473,14 +646,12 @@ export default function FeedPage() {
                           />
                         ) : (
                           <div className="feed-user-placeholder">
-                            {(
+                            {(activity
+                              .user
+                              .displayName ||
                               activity
                                 .user
-                                .displayName ||
-                              activity
-                                .user
-                                .username
-                            )
+                                .username)
                               .charAt(
                                 0,
                               )
@@ -517,124 +688,278 @@ export default function FeedPage() {
                     </div>
 
                     <div className="feed-type-badge">
-                    {activity.type === "REVIEW"
+                      {activity.type ===
+                      "REVIEW"
                         ? "Review"
-                        : activity.type === "RATING"
-                        ? "Avaliação"
-                        : "Biblioteca"}
+                        : activity.type ===
+                            "RATING"
+                          ? "Avaliação"
+                          : activity.type ===
+                              "RECOMMENDATION"
+                            ? "Recomendação"
+                            : "Biblioteca"}
                     </div>
 
                     <div className="feed-content">
-                      {activity
-                        .game
-                        .coverUrl && (
+                      {activity.type !== "RECOMMENDATION" &&
+                        activity.game.coverUrl && (
                         <a
                           href={`/games/${activity.game.slug}`}
                           className="feed-game-cover"
                         >
                           <img
-                            src={
-                              activity
-                                .game
-                                .coverUrl
-                            }
+                            src={activity.game.coverUrl}
                             alt={`Capa de ${activity.game.title}`}
                           />
                         </a>
                       )}
 
                       <div className="feed-content-main">
-                        <a
-                          href={`/games/${activity.game.slug}`}
-                          className="feed-game-title"
-                        >
-                          {
-                            activity
-                              .game
-                              .title
-                          }
-                        </a>
-                        {activity.type === "REVIEW" ? (
-                        <>
-                        <p className="feed-action-text">
-                        <strong>
-                            {activity.user.displayName ||
-                            activity.user.username}
-                        </strong>{" "}
-                        publicou uma review de{" "}
-                        <a
-                            href={`/games/${activity.game.slug}`}
-                        >
-                            {activity.game.title}
-                        </a>
-                        </p>
 
-                        {activity.review.isSpoiler ? (
-                        <details className="feed-review">
-                            <summary>
-                            Review contém spoiler
-                            </summary>
-
-                            <p>
-                            {activity.review.body}
+                        {activity.type ===
+                        "REVIEW" ? (
+                          <>
+                            <p className="feed-action-text">
+                              <strong>
+                                {activity
+                                  .user
+                                  .displayName ||
+                                  activity
+                                    .user
+                                    .username}
+                              </strong>{" "}
+                              publicou
+                              uma review
+                              de{" "}
+                              <a
+                                href={`/games/${activity.game.slug}`}
+                              >
+                                {
+                                  activity
+                                    .game
+                                    .title
+                                }
+                              </a>
                             </p>
-                        </details>
-                        ) : (
-                        <p className="feed-review-text">
-                            {activity.review.body}
-                        </p>
-                        )}
 
-                        <span className="feed-meta">
-                        {activity.review.likes}{" "}
-                        {activity.review.likes === 1
-                            ? "curtida"
-                            : "curtidas"}
-                        </span>
-                    </>
-                    ) : activity.type === "RATING" ? (
-                    <>
-                        <p className="feed-action-text">
-                        <strong>
-                            {activity.user.displayName ||
-                            activity.user.username}
-                        </strong>{" "}
-                        {activity.activityType ===
-                        "RATING_CREATED"
-                            ? "avaliou"
-                            : "atualizou a avaliação de"}{" "}
-                        <a
-                            href={`/games/${activity.game.slug}`}
-                        >
-                            {activity.game.title}
-                        </a>{" "}
-                        com nota{" "}
-                        <strong>
-                            {activity.rating.score}/10
-                        </strong>
-                        </p>
+                            {activity
+                              .review
+                              .isSpoiler ? (
+                              <details className="feed-review">
+                                <summary>
+                                  Review
+                                  contém
+                                  spoiler
+                                </summary>
 
-                        <div className="feed-rating-score">
-                        {activity.rating.score}
-                        <span>/10</span>
-                        </div>
-                    </>
-                    ) : (
-                    <p className="feed-action-text">
-                        <strong>
-                        {activity.user.displayName ||
-                            activity.user.username}
-                        </strong>{" "}
-                        {getLibraryActivityText(
-                        activity,
-                        )}{" "}
-                        <a
-                        href={`/games/${activity.game.slug}`}
-                        >
-                        {activity.game.title}
-                        </a>
-                    </p>
-                    )}
+                                <p>
+                                  {
+                                    activity
+                                      .review
+                                      .body
+                                  }
+                                </p>
+                              </details>
+                            ) : (
+                              <p className="feed-review-text">
+                                {
+                                  activity
+                                    .review
+                                    .body
+                                }
+                              </p>
+                            )}
+
+                            <span className="feed-meta">
+                              {
+                                activity
+                                  .review
+                                  .likes
+                              }{" "}
+                              {activity
+                                .review
+                                .likes ===
+                              1
+                                ? "curtida"
+                                : "curtidas"}
+                            </span>
+                          </>
+                        ) : activity.type ===
+                          "RATING" ? (
+                          <>
+                            <p className="feed-action-text">
+                              <strong>
+                                {activity
+                                  .user
+                                  .displayName ||
+                                  activity
+                                    .user
+                                    .username}
+                              </strong>{" "}
+                              {activity.activityType ===
+                              "RATING_CREATED"
+                                ? "avaliou"
+                                : "atualizou a avaliação de"}{" "}
+                              <a
+                                href={`/games/${activity.game.slug}`}
+                              >
+                                {
+                                  activity
+                                    .game
+                                    .title
+                                }
+                              </a>{" "}
+                              com nota{" "}
+                              <strong>
+                                {
+                                  activity
+                                    .rating
+                                    .score
+                                }
+                                /10
+                              </strong>
+                            </p>
+
+                            <div className="feed-rating-score">
+                              {
+                                activity
+                                  .rating
+                                  .score
+                              }
+
+                              <span>
+                                /10
+                              </span>
+                            </div>
+                          </>
+                        ) : activity.type ===
+                          "RECOMMENDATION" ? (
+                          <>
+                            <div className="feed-recommendation-card">
+                              <div className="feed-recommendation-cover">
+                                {activity.recommendation
+                                  .recommendedGame
+                                  .coverUrl ? (
+                                  <a
+                                    href={`/games/${activity.recommendation.recommendedGame.slug}`}
+                                  >
+                                    <img
+                                      src={
+                                        activity.recommendation
+                                          .recommendedGame
+                                          .coverUrl
+                                      }
+                                      alt={`Capa de ${activity.recommendation.recommendedGame.title}`}
+                                    />
+                                  </a>
+                                ) : (
+                                  <div className="feed-game-cover-placeholder">
+                                    Sem capa
+                                  </div>
+                                )}
+                              </div>
+
+                              <div className="feed-recommendation-content">
+                                <span className="feed-label">
+                                  Recomendado
+                                </span>
+
+                                <a
+                                  href={`/games/${activity.recommendation.recommendedGame.slug}`}
+                                  className="feed-game-title"
+                                >
+                                  {
+                                    activity.recommendation
+                                      .recommendedGame
+                                      .title
+                                  }
+                                </a>
+
+                                <div className="feed-recommendation-aspects">
+                                  {activity.recommendation.aspects.map(
+                                    (aspect) => (
+                                      <span key={aspect.id}>
+                                        {
+                                          recommendationAspectLabels[
+                                            aspect.type
+                                          ]
+                                        }
+                                      </span>
+                                    ),
+                                  )}
+                                </div>
+
+                                <p className="feed-action-text">
+                                  <strong>
+                                    {activity.user.displayName ||
+                                      activity.user.username}
+                                  </strong>{" "}
+                                  recomendou{" "}
+                                  <a
+                                    href={`/games/${activity.recommendation.recommendedGame.slug}`}
+                                  >
+                                    {
+                                      activity.recommendation
+                                        .recommendedGame
+                                        .title
+                                    }
+                                  </a>{" "}
+                                  para quem gostou de{" "}
+                                  <a
+                                    href={`/games/${activity.game.slug}`}
+                                  >
+                                    {activity.game.title}
+                                  </a>
+                                </p>
+
+                                <p className="feed-review-text">
+                                  {
+                                    activity.recommendation
+                                      .body
+                                  }
+                                </p>
+
+                                <span className="feed-meta">
+                                  {
+                                    activity.recommendation
+                                      .supportCount
+                                  }{" "}
+                                  {activity.recommendation
+                                    .supportCount === 1
+                                    ? "pessoa também recomenda"
+                                    : "pessoas também recomendam"}
+                                </span>
+                              </div>
+                            </div>
+                          </>
+                        ) : activity.type ===
+                          "LIBRARY" ? (
+                          <p className="feed-action-text">
+                            <strong>
+                              {activity
+                                .user
+                                .displayName ||
+                                activity
+                                  .user
+                                  .username}
+                            </strong>{" "}
+                            {getLibraryActivityText(
+                              activity.activityType,
+                              activity
+                                .library
+                                .status,
+                            )}{" "}
+                            <a
+                              href={`/games/${activity.game.slug}`}
+                            >
+                              {
+                                activity
+                                  .game
+                                  .title
+                              }
+                            </a>
+                          </p>
+                        ) : null}
                       </div>
                     </div>
                   </article>

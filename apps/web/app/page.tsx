@@ -81,12 +81,12 @@ async function getGames(
     process.env.NEXT_PUBLIC_API_URL ??
     "http://localhost:4000";
 
-  const response = await fetch(
-    `${API_URL}/games?${queryString}`,
-    {
-      cache: "no-store",
-    },
-  );
+const response = await fetch(
+  `${API_URL}/games?page=1&limit=6&sort=recent`,
+  {
+    cache: "no-store",
+  },
+);
 
   if (!response.ok) {
     throw new Error(
@@ -191,13 +191,10 @@ export default async function Home({
           <div className="home-section">
             <div className="home-section-header">
               <div>
-                <h2>
-                  Jogos em destaque
-                </h2>
+                <h2>Adicionados recentemente</h2>
 
                 <p>
-                  Alguns jogos disponíveis
-                  no GameHub.
+                  Os jogos mais recentes adicionados ao GameHub.
                 </p>
               </div>
 

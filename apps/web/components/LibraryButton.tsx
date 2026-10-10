@@ -20,6 +20,7 @@ type LibraryEntry = {
   id: string;
   gameId: string;
   status: GameStatus;
+  isFavorite: boolean;
 };
 
 type LibraryButtonProps = {
@@ -348,6 +349,23 @@ export default function LibraryButton({
 
           <button
             type="button"
+            className={
+              entry.isFavorite
+                ? "library-favorite-button active"
+                : "library-favorite-button"
+            }
+            onClick={
+              handleFavoriteToggle
+            }
+            disabled={saving}
+          >
+            {entry.isFavorite
+              ? "♥ Favorito"
+              : "♡ Favoritar"}
+          </button>
+
+          <button
+            type="button"
             className="library-remove-button"
             onClick={handleRemove}
             disabled={saving}
@@ -377,4 +395,51 @@ export default function LibraryButton({
       )}
     </div>
   );
+
+  async function handleFavoriteToggle() {
+  if (!token || !entry) {
+    return;
+  }
+
+  setSaving(true);
+  setMessage("");
+
+  try {
+    const data =
+      await apiJson<LibraryEntry>(
+        `/library/games/${gameId}/favorite`,
+        {
+          method: entry.isFavorite
+            ? "DELETE"
+            : "PATCH",
+
+          token,
+        },
+      );
+
+    setEntry((current) =>
+      current
+        ? {
+            ...current,
+            isFavorite:
+              data.isFavorite,
+          }
+        : current,
+    );
+
+    setMessage(
+      data.isFavorite
+        ? "Jogo adicionado aos favoritos."
+        : "Jogo removido dos favoritos.",
+    );
+  } catch (error) {
+    setMessage(
+      error instanceof Error
+        ? error.message
+        : "Não foi possível atualizar o favorito.",
+    );
+  } finally {
+    setSaving(false);
+  }
+}
 }
