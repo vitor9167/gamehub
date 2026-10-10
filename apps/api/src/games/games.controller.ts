@@ -10,10 +10,37 @@ import { AdminGuard } from '../auth/admin.guard';
 export class GamesController {
   constructor(private readonly gamesService: GamesService) {}
 
-  @Get()
-  findAll(@Query() filters: FindGamesDto) {
-  return this.gamesService.findAll(filters);
-  }
+@Get()
+findAll(
+  @Query("search")
+  search?: string,
+
+  @Query("genre")
+  genre?: string,
+
+  @Query("platform")
+  platform?: string,
+
+  @Query("page")
+  page?: string,
+
+  @Query("limit")
+  limit?: string,
+
+  @Query("sort")
+sort?: "title" | "recent" | "release",
+) {
+  return this.gamesService.findAll({
+    search,
+    genre,
+    platform,
+    page:
+      Number(page) || 1,
+    limit:
+      Number(limit) || 12,
+    sort,
+  });
+}
 
   @Get('filters')
   getFilters() {

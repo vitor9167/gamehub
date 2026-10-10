@@ -44,6 +44,7 @@ export type UserGameMinAggregateOutputType = {
   completedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
+  isFavorite: boolean | null
 }
 
 export type UserGameMaxAggregateOutputType = {
@@ -56,6 +57,7 @@ export type UserGameMaxAggregateOutputType = {
   completedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
+  isFavorite: boolean | null
 }
 
 export type UserGameCountAggregateOutputType = {
@@ -69,6 +71,7 @@ export type UserGameCountAggregateOutputType = {
   personalTags: number
   createdAt: number
   updatedAt: number
+  isFavorite: number
   _all: number
 }
 
@@ -91,6 +94,7 @@ export type UserGameMinAggregateInputType = {
   completedAt?: true
   createdAt?: true
   updatedAt?: true
+  isFavorite?: true
 }
 
 export type UserGameMaxAggregateInputType = {
@@ -103,6 +107,7 @@ export type UserGameMaxAggregateInputType = {
   completedAt?: true
   createdAt?: true
   updatedAt?: true
+  isFavorite?: true
 }
 
 export type UserGameCountAggregateInputType = {
@@ -116,6 +121,7 @@ export type UserGameCountAggregateInputType = {
   personalTags?: true
   createdAt?: true
   updatedAt?: true
+  isFavorite?: true
   _all?: true
 }
 
@@ -216,6 +222,7 @@ export type UserGameGroupByOutputType = {
   personalTags: string[]
   createdAt: Date
   updatedAt: Date
+  isFavorite: boolean
   _count: UserGameCountAggregateOutputType | null
   _avg: UserGameAvgAggregateOutputType | null
   _sum: UserGameSumAggregateOutputType | null
@@ -252,6 +259,7 @@ export type UserGameWhereInput = {
   personalTags?: Prisma.StringNullableListFilter<"UserGame">
   createdAt?: Prisma.DateTimeFilter<"UserGame"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserGame"> | Date | string
+  isFavorite?: Prisma.BoolFilter<"UserGame"> | boolean
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   game?: Prisma.XOR<Prisma.GameScalarRelationFilter, Prisma.GameWhereInput>
   platforms?: Prisma.UserGamePlatformListRelationFilter
@@ -268,6 +276,7 @@ export type UserGameOrderByWithRelationInput = {
   personalTags?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  isFavorite?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   game?: Prisma.GameOrderByWithRelationInput
   platforms?: Prisma.UserGamePlatformOrderByRelationAggregateInput
@@ -288,6 +297,7 @@ export type UserGameWhereUniqueInput = Prisma.AtLeast<{
   personalTags?: Prisma.StringNullableListFilter<"UserGame">
   createdAt?: Prisma.DateTimeFilter<"UserGame"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserGame"> | Date | string
+  isFavorite?: Prisma.BoolFilter<"UserGame"> | boolean
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   game?: Prisma.XOR<Prisma.GameScalarRelationFilter, Prisma.GameWhereInput>
   platforms?: Prisma.UserGamePlatformListRelationFilter
@@ -304,6 +314,7 @@ export type UserGameOrderByWithAggregationInput = {
   personalTags?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  isFavorite?: Prisma.SortOrder
   _count?: Prisma.UserGameCountOrderByAggregateInput
   _avg?: Prisma.UserGameAvgOrderByAggregateInput
   _max?: Prisma.UserGameMaxOrderByAggregateInput
@@ -325,6 +336,7 @@ export type UserGameScalarWhereWithAggregatesInput = {
   personalTags?: Prisma.StringNullableListFilter<"UserGame">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"UserGame"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"UserGame"> | Date | string
+  isFavorite?: Prisma.BoolWithAggregatesFilter<"UserGame"> | boolean
 }
 
 export type UserGameCreateInput = {
@@ -336,6 +348,7 @@ export type UserGameCreateInput = {
   personalTags?: Prisma.UserGameCreatepersonalTagsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  isFavorite?: boolean
   user: Prisma.UserCreateNestedOneWithoutLibraryInput
   game: Prisma.GameCreateNestedOneWithoutLibraryEntriesInput
   platforms?: Prisma.UserGamePlatformCreateNestedManyWithoutUserGameInput
@@ -352,6 +365,7 @@ export type UserGameUncheckedCreateInput = {
   personalTags?: Prisma.UserGameCreatepersonalTagsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  isFavorite?: boolean
   platforms?: Prisma.UserGamePlatformUncheckedCreateNestedManyWithoutUserGameInput
 }
 
@@ -364,6 +378,7 @@ export type UserGameUpdateInput = {
   personalTags?: Prisma.UserGameUpdatepersonalTagsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
   user?: Prisma.UserUpdateOneRequiredWithoutLibraryNestedInput
   game?: Prisma.GameUpdateOneRequiredWithoutLibraryEntriesNestedInput
   platforms?: Prisma.UserGamePlatformUpdateManyWithoutUserGameNestedInput
@@ -380,6 +395,7 @@ export type UserGameUncheckedUpdateInput = {
   personalTags?: Prisma.UserGameUpdatepersonalTagsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
   platforms?: Prisma.UserGamePlatformUncheckedUpdateManyWithoutUserGameNestedInput
 }
 
@@ -394,6 +410,7 @@ export type UserGameCreateManyInput = {
   personalTags?: Prisma.UserGameCreatepersonalTagsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  isFavorite?: boolean
 }
 
 export type UserGameUpdateManyMutationInput = {
@@ -405,6 +422,7 @@ export type UserGameUpdateManyMutationInput = {
   personalTags?: Prisma.UserGameUpdatepersonalTagsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type UserGameUncheckedUpdateManyInput = {
@@ -418,6 +436,7 @@ export type UserGameUncheckedUpdateManyInput = {
   personalTags?: Prisma.UserGameUpdatepersonalTagsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type UserGameListRelationFilter = {
@@ -454,6 +473,7 @@ export type UserGameCountOrderByAggregateInput = {
   personalTags?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  isFavorite?: Prisma.SortOrder
 }
 
 export type UserGameAvgOrderByAggregateInput = {
@@ -470,6 +490,7 @@ export type UserGameMaxOrderByAggregateInput = {
   completedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  isFavorite?: Prisma.SortOrder
 }
 
 export type UserGameMinOrderByAggregateInput = {
@@ -482,6 +503,7 @@ export type UserGameMinOrderByAggregateInput = {
   completedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  isFavorite?: Prisma.SortOrder
 }
 
 export type UserGameSumOrderByAggregateInput = {
@@ -613,6 +635,7 @@ export type UserGameCreateWithoutUserInput = {
   personalTags?: Prisma.UserGameCreatepersonalTagsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  isFavorite?: boolean
   game: Prisma.GameCreateNestedOneWithoutLibraryEntriesInput
   platforms?: Prisma.UserGamePlatformCreateNestedManyWithoutUserGameInput
 }
@@ -627,6 +650,7 @@ export type UserGameUncheckedCreateWithoutUserInput = {
   personalTags?: Prisma.UserGameCreatepersonalTagsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  isFavorite?: boolean
   platforms?: Prisma.UserGamePlatformUncheckedCreateNestedManyWithoutUserGameInput
 }
 
@@ -670,6 +694,7 @@ export type UserGameScalarWhereInput = {
   personalTags?: Prisma.StringNullableListFilter<"UserGame">
   createdAt?: Prisma.DateTimeFilter<"UserGame"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserGame"> | Date | string
+  isFavorite?: Prisma.BoolFilter<"UserGame"> | boolean
 }
 
 export type UserGameCreateWithoutGameInput = {
@@ -681,6 +706,7 @@ export type UserGameCreateWithoutGameInput = {
   personalTags?: Prisma.UserGameCreatepersonalTagsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  isFavorite?: boolean
   user: Prisma.UserCreateNestedOneWithoutLibraryInput
   platforms?: Prisma.UserGamePlatformCreateNestedManyWithoutUserGameInput
 }
@@ -695,6 +721,7 @@ export type UserGameUncheckedCreateWithoutGameInput = {
   personalTags?: Prisma.UserGameCreatepersonalTagsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  isFavorite?: boolean
   platforms?: Prisma.UserGamePlatformUncheckedCreateNestedManyWithoutUserGameInput
 }
 
@@ -733,6 +760,7 @@ export type UserGameCreateWithoutPlatformsInput = {
   personalTags?: Prisma.UserGameCreatepersonalTagsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  isFavorite?: boolean
   user: Prisma.UserCreateNestedOneWithoutLibraryInput
   game: Prisma.GameCreateNestedOneWithoutLibraryEntriesInput
 }
@@ -748,6 +776,7 @@ export type UserGameUncheckedCreateWithoutPlatformsInput = {
   personalTags?: Prisma.UserGameCreatepersonalTagsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  isFavorite?: boolean
 }
 
 export type UserGameCreateOrConnectWithoutPlatformsInput = {
@@ -775,6 +804,7 @@ export type UserGameUpdateWithoutPlatformsInput = {
   personalTags?: Prisma.UserGameUpdatepersonalTagsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
   user?: Prisma.UserUpdateOneRequiredWithoutLibraryNestedInput
   game?: Prisma.GameUpdateOneRequiredWithoutLibraryEntriesNestedInput
 }
@@ -790,6 +820,7 @@ export type UserGameUncheckedUpdateWithoutPlatformsInput = {
   personalTags?: Prisma.UserGameUpdatepersonalTagsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type UserGameCreateManyUserInput = {
@@ -802,6 +833,7 @@ export type UserGameCreateManyUserInput = {
   personalTags?: Prisma.UserGameCreatepersonalTagsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  isFavorite?: boolean
 }
 
 export type UserGameUpdateWithoutUserInput = {
@@ -813,6 +845,7 @@ export type UserGameUpdateWithoutUserInput = {
   personalTags?: Prisma.UserGameUpdatepersonalTagsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
   game?: Prisma.GameUpdateOneRequiredWithoutLibraryEntriesNestedInput
   platforms?: Prisma.UserGamePlatformUpdateManyWithoutUserGameNestedInput
 }
@@ -827,6 +860,7 @@ export type UserGameUncheckedUpdateWithoutUserInput = {
   personalTags?: Prisma.UserGameUpdatepersonalTagsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
   platforms?: Prisma.UserGamePlatformUncheckedUpdateManyWithoutUserGameNestedInput
 }
 
@@ -840,6 +874,7 @@ export type UserGameUncheckedUpdateManyWithoutUserInput = {
   personalTags?: Prisma.UserGameUpdatepersonalTagsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type UserGameCreateManyGameInput = {
@@ -852,6 +887,7 @@ export type UserGameCreateManyGameInput = {
   personalTags?: Prisma.UserGameCreatepersonalTagsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  isFavorite?: boolean
 }
 
 export type UserGameUpdateWithoutGameInput = {
@@ -863,6 +899,7 @@ export type UserGameUpdateWithoutGameInput = {
   personalTags?: Prisma.UserGameUpdatepersonalTagsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
   user?: Prisma.UserUpdateOneRequiredWithoutLibraryNestedInput
   platforms?: Prisma.UserGamePlatformUpdateManyWithoutUserGameNestedInput
 }
@@ -877,6 +914,7 @@ export type UserGameUncheckedUpdateWithoutGameInput = {
   personalTags?: Prisma.UserGameUpdatepersonalTagsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
   platforms?: Prisma.UserGamePlatformUncheckedUpdateManyWithoutUserGameNestedInput
 }
 
@@ -890,6 +928,7 @@ export type UserGameUncheckedUpdateManyWithoutGameInput = {
   personalTags?: Prisma.UserGameUpdatepersonalTagsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 
@@ -934,6 +973,7 @@ export type UserGameSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   personalTags?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  isFavorite?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   game?: boolean | Prisma.GameDefaultArgs<ExtArgs>
   platforms?: boolean | Prisma.UserGame$platformsArgs<ExtArgs>
@@ -951,6 +991,7 @@ export type UserGameSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   personalTags?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  isFavorite?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   game?: boolean | Prisma.GameDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userGame"]>
@@ -966,6 +1007,7 @@ export type UserGameSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   personalTags?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  isFavorite?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   game?: boolean | Prisma.GameDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userGame"]>
@@ -981,9 +1023,10 @@ export type UserGameSelectScalar = {
   personalTags?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  isFavorite?: boolean
 }
 
-export type UserGameOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "gameId" | "status" | "playedMinutes" | "startedAt" | "completedAt" | "personalTags" | "createdAt" | "updatedAt", ExtArgs["result"]["userGame"]>
+export type UserGameOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "gameId" | "status" | "playedMinutes" | "startedAt" | "completedAt" | "personalTags" | "createdAt" | "updatedAt" | "isFavorite", ExtArgs["result"]["userGame"]>
 export type UserGameInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   game?: boolean | Prisma.GameDefaultArgs<ExtArgs>
@@ -1017,6 +1060,7 @@ export type $UserGamePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     personalTags: string[]
     createdAt: Date
     updatedAt: Date
+    isFavorite: boolean
   }, ExtArgs["result"]["userGame"]>
   composites: {}
 }
@@ -1453,6 +1497,7 @@ export interface UserGameFieldRefs {
   readonly personalTags: Prisma.FieldRef<"UserGame", 'String[]'>
   readonly createdAt: Prisma.FieldRef<"UserGame", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"UserGame", 'DateTime'>
+  readonly isFavorite: Prisma.FieldRef<"UserGame", 'Boolean'>
 }
     
 

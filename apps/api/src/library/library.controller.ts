@@ -72,6 +72,32 @@ gameId: string,
     );
   }
 
+  @Patch('games/:gameId/favorite')
+favoriteGame(
+  @Req() request: any,
+  @Param('gameId', ParseUUIDPipe)
+  gameId: string,
+) {
+  return this.libraryService.setFavorite(
+    request.user.sub,
+    gameId,
+    true,
+  );
+}
+
+@Delete('games/:gameId/favorite')
+unfavoriteGame(
+  @Req() request: any,
+  @Param('gameId', ParseUUIDPipe)
+  gameId: string,
+) {
+  return this.libraryService.setFavorite(
+    request.user.sub,
+    gameId,
+    false,
+  );
+}
+
   @Delete('games/:gameId')
   removeGame(
     @Req() request: any,

@@ -1,4 +1,12 @@
-import { IsInt, IsOptional, IsString, Max, Min, } from 'class-validator';
+import {
+  IsIn,
+  IsInt,
+  IsOptional,
+  IsString,
+  Max,
+  Min,
+} from 'class-validator';
+
 import { Type } from 'class-transformer';
 
 export class FindGamesDto {
@@ -26,4 +34,14 @@ export class FindGamesDto {
   @Min(1)
   @Max(100)
   limit?: number;
+
+
+    @IsOptional()
+  @IsString()
+  @IsIn([
+    'title',
+    'recent',
+    'release',
+  ])
+  sort?: 'title' | 'recent' | 'release';
 }

@@ -32,6 +32,20 @@ enum ActivityType {
   REVIEW_CREATED
   RATING_CREATED
   RATING_UPDATED
+  RECOMMENDATION_CREATED
+}
+
+enum RecommendationAspectType {
+  STORY
+  GAMEPLAY
+  MECHANICS
+  ATMOSPHERE
+  EXPLORATION
+  PROGRESSION
+  DIFFICULTY
+  MULTIPLAYER
+  ART_STYLE
+  SOUNDTRACK
 }
 
 // ==============================
@@ -60,12 +74,16 @@ model User {
   followers UserFollow[] @relation("UserFollowing")
   following UserFollow[] @relation("UserFollowers")
 
+  recommendationSupports RecommendationSupport[]
+
   library     UserGame[]
   ratings     Rating[]
   reviews     Review[]
   favorites   Favorite[]
   reviewLikes ReviewLike[]
   activities  Activity[]
+
+  gameRecommendations GameRecommendation[]
 
   @@index([createdAt])
 }
@@ -98,6 +116,10 @@ model Game {
   reviews        Review[]
   favorites      Favorite[]
   activities     Activity[]
+
+  recommendationsFrom GameRecommendation[] @relation("RecommendationSource")
+
+  recommendationsTo GameRecommendation[] @relation("RecommendationTarget")
 
   @@unique([externalSource, externalId])
   @@index([title])
@@ -213,6 +235,8 @@ model UserGame {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  isFavorite Boolean @default(false)
 
   user      User               @relation(fields: [userId], references: [id], onDelete: Cascade)
   game      Game               @relation(fields: [gameId], references: [id], onDelete: Cascade)
@@ -347,12 +371,71 @@ model Activity {
   ratingScore Int?
   createdAt   DateTime     @default(now())
 
-  user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  game         Game?       @relation(fields: [gameId], references: [id], onDelete: Cascade)
-  review       Review?     @relation(fields: [reviewId], references: [id], onDelete: Cascade)
-  reviewLike   ReviewLike? @relation(fields: [reviewLikeId], references: [id])
-  reviewLikeId String?     @db.Uuid
+  user             User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  game             Game?               @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  review           Review?             @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  reviewLike       ReviewLike?         @relation(fields: [reviewLikeId], references: [id])
+  recommendation   GameRecommendation? @relation(fields: [recommendationId], references: [id], onDelete: Cascade)
+  reviewLikeId     String?             @db.Uuid
+  recommendationId String?             @db.Uuid
 
   @@index([userId, createdAt])
   @@index([createdAt])
+}
+
+// ==============================
+// RECOMENDACOES
+// ==============================
+
+model GameRecommendation {
+  id                String @id @default(uuid()) @db.Uuid
+  userId            String @db.Uuid
+  sourceGameId      String @db.Uuid
+  recommendedGameId String @db.Uuid
+  body              String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  sourceGame Game @relation("RecommendationSource", fields: [sourceGameId], references: [id], onDelete: Cascade)
+
+  recommendedGame Game @relation("RecommendationTarget", fields: [recommendedGameId], references: [id], onDelete: Cascade)
+
+  aspects  RecommendationAspect[]
+  supports RecommendationSupport[]
+
+  activities Activity[]
+
+  @@unique([userId, sourceGameId, recommendedGameId])
+  @@index([sourceGameId])
+  @@index([recommendedGameId])
+  @@index([userId])
+}
+
+model RecommendationAspect {
+  id               String                   @id @default(uuid()) @db.Uuid
+  recommendationId String                   @db.Uuid
+  type             RecommendationAspectType
+
+  recommendation GameRecommendation @relation(fields: [recommendationId], references: [id], onDelete: Cascade)
+
+  @@unique([recommendationId, type])
+  @@index([recommendationId])
+}
+
+model RecommendationSupport {
+  id               String   @id @default(uuid()) @db.Uuid
+  userId           String   @db.Uuid
+  recommendationId String   @db.Uuid
+  createdAt        DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  recommendation GameRecommendation @relation(fields: [recommendationId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, recommendationId])
+  @@index([userId])
+  @@index([recommendationId])
 }

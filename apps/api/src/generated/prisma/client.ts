@@ -129,3 +129,18 @@ export type UserFollow = Prisma.UserFollowModel
  * 
  */
 export type Activity = Prisma.ActivityModel
+/**
+ * Model GameRecommendation
+ * 
+ */
+export type GameRecommendation = Prisma.GameRecommendationModel
+/**
+ * Model RecommendationAspect
+ * 
+ */
+export type RecommendationAspect = Prisma.RecommendationAspectModel
+/**
+ * Model RecommendationSupport
+ * 
+ */
+export type RecommendationSupport = Prisma.RecommendationSupportModel

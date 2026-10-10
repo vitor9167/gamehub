@@ -324,6 +324,23 @@ export type EnumGameStatusNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumGameStatusNullableFilter<$PrismaModel>
 }
 
+export type EnumRecommendationAspectTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.RecommendationAspectType | Prisma.EnumRecommendationAspectTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.RecommendationAspectType[] | Prisma.ListEnumRecommendationAspectTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.RecommendationAspectType[] | Prisma.ListEnumRecommendationAspectTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumRecommendationAspectTypeFilter<$PrismaModel> | $Enums.RecommendationAspectType
+}
+
+export type EnumRecommendationAspectTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.RecommendationAspectType | Prisma.EnumRecommendationAspectTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.RecommendationAspectType[] | Prisma.ListEnumRecommendationAspectTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.RecommendationAspectType[] | Prisma.ListEnumRecommendationAspectTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumRecommendationAspectTypeWithAggregatesFilter<$PrismaModel> | $Enums.RecommendationAspectType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumRecommendationAspectTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumRecommendationAspectTypeFilter<$PrismaModel>
+}
+
 export type NestedUuidFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -641,6 +658,23 @@ export type NestedEnumGameStatusNullableWithAggregatesFilter<$PrismaModel = neve
   _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
   _min?: Prisma.NestedEnumGameStatusNullableFilter<$PrismaModel>
   _max?: Prisma.NestedEnumGameStatusNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumRecommendationAspectTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.RecommendationAspectType | Prisma.EnumRecommendationAspectTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.RecommendationAspectType[] | Prisma.ListEnumRecommendationAspectTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.RecommendationAspectType[] | Prisma.ListEnumRecommendationAspectTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumRecommendationAspectTypeFilter<$PrismaModel> | $Enums.RecommendationAspectType
+}
+
+export type NestedEnumRecommendationAspectTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.RecommendationAspectType | Prisma.EnumRecommendationAspectTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.RecommendationAspectType[] | Prisma.ListEnumRecommendationAspectTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.RecommendationAspectType[] | Prisma.ListEnumRecommendationAspectTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumRecommendationAspectTypeWithAggregatesFilter<$PrismaModel> | $Enums.RecommendationAspectType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumRecommendationAspectTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumRecommendationAspectTypeFilter<$PrismaModel>
 }
 
 

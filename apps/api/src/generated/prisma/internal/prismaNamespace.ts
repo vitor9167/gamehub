@@ -414,7 +414,10 @@ export const ModelName = {
   ReviewLike: 'ReviewLike',
   Favorite: 'Favorite',
   UserFollow: 'UserFollow',
-  Activity: 'Activity'
+  Activity: 'Activity',
+  GameRecommendation: 'GameRecommendation',
+  RecommendationAspect: 'RecommendationAspect',
+  RecommendationSupport: 'RecommendationSupport'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -430,7 +433,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "game" | "genre" | "platform" | "developer" | "publisher" | "gameGenre" | "gamePlatform" | "gameDeveloper" | "gamePublisher" | "userGame" | "userGamePlatform" | "rating" | "review" | "reviewLike" | "favorite" | "userFollow" | "activity"
+    modelProps: "user" | "game" | "genre" | "platform" | "developer" | "publisher" | "gameGenre" | "gamePlatform" | "gameDeveloper" | "gamePublisher" | "userGame" | "userGamePlatform" | "rating" | "review" | "reviewLike" | "favorite" | "userFollow" | "activity" | "gameRecommendation" | "recommendationAspect" | "recommendationSupport"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1766,6 +1769,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    GameRecommendation: {
+      payload: Prisma.$GameRecommendationPayload<ExtArgs>
+      fields: Prisma.GameRecommendationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.GameRecommendationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameRecommendationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.GameRecommendationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameRecommendationPayload>
+        }
+        findFirst: {
+          args: Prisma.GameRecommendationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameRecommendationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.GameRecommendationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameRecommendationPayload>
+        }
+        findMany: {
+          args: Prisma.GameRecommendationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameRecommendationPayload>[]
+        }
+        create: {
+          args: Prisma.GameRecommendationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameRecommendationPayload>
+        }
+        createMany: {
+          args: Prisma.GameRecommendationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.GameRecommendationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameRecommendationPayload>[]
+        }
+        delete: {
+          args: Prisma.GameRecommendationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameRecommendationPayload>
+        }
+        update: {
+          args: Prisma.GameRecommendationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameRecommendationPayload>
+        }
+        deleteMany: {
+          args: Prisma.GameRecommendationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.GameRecommendationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.GameRecommendationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameRecommendationPayload>[]
+        }
+        upsert: {
+          args: Prisma.GameRecommendationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameRecommendationPayload>
+        }
+        aggregate: {
+          args: Prisma.GameRecommendationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateGameRecommendation>
+        }
+        groupBy: {
+          args: Prisma.GameRecommendationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GameRecommendationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.GameRecommendationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GameRecommendationCountAggregateOutputType> | number
+        }
+      }
+    }
+    RecommendationAspect: {
+      payload: Prisma.$RecommendationAspectPayload<ExtArgs>
+      fields: Prisma.RecommendationAspectFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RecommendationAspectFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecommendationAspectPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RecommendationAspectFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecommendationAspectPayload>
+        }
+        findFirst: {
+          args: Prisma.RecommendationAspectFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecommendationAspectPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RecommendationAspectFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecommendationAspectPayload>
+        }
+        findMany: {
+          args: Prisma.RecommendationAspectFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecommendationAspectPayload>[]
+        }
+        create: {
+          args: Prisma.RecommendationAspectCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecommendationAspectPayload>
+        }
+        createMany: {
+          args: Prisma.RecommendationAspectCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RecommendationAspectCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecommendationAspectPayload>[]
+        }
+        delete: {
+          args: Prisma.RecommendationAspectDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecommendationAspectPayload>
+        }
+        update: {
+          args: Prisma.RecommendationAspectUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecommendationAspectPayload>
+        }
+        deleteMany: {
+          args: Prisma.RecommendationAspectDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RecommendationAspectUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RecommendationAspectUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecommendationAspectPayload>[]
+        }
+        upsert: {
+          args: Prisma.RecommendationAspectUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecommendationAspectPayload>
+        }
+        aggregate: {
+          args: Prisma.RecommendationAspectAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRecommendationAspect>
+        }
+        groupBy: {
+          args: Prisma.RecommendationAspectGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RecommendationAspectGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RecommendationAspectCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RecommendationAspectCountAggregateOutputType> | number
+        }
+      }
+    }
+    RecommendationSupport: {
+      payload: Prisma.$RecommendationSupportPayload<ExtArgs>
+      fields: Prisma.RecommendationSupportFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RecommendationSupportFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecommendationSupportPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RecommendationSupportFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecommendationSupportPayload>
+        }
+        findFirst: {
+          args: Prisma.RecommendationSupportFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecommendationSupportPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RecommendationSupportFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecommendationSupportPayload>
+        }
+        findMany: {
+          args: Prisma.RecommendationSupportFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecommendationSupportPayload>[]
+        }
+        create: {
+          args: Prisma.RecommendationSupportCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecommendationSupportPayload>
+        }
+        createMany: {
+          args: Prisma.RecommendationSupportCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RecommendationSupportCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecommendationSupportPayload>[]
+        }
+        delete: {
+          args: Prisma.RecommendationSupportDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecommendationSupportPayload>
+        }
+        update: {
+          args: Prisma.RecommendationSupportUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecommendationSupportPayload>
+        }
+        deleteMany: {
+          args: Prisma.RecommendationSupportDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RecommendationSupportUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RecommendationSupportUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecommendationSupportPayload>[]
+        }
+        upsert: {
+          args: Prisma.RecommendationSupportUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecommendationSupportPayload>
+        }
+        aggregate: {
+          args: Prisma.RecommendationSupportAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRecommendationSupport>
+        }
+        groupBy: {
+          args: Prisma.RecommendationSupportGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RecommendationSupportGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RecommendationSupportCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RecommendationSupportCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1915,7 +2140,8 @@ export const UserGameScalarFieldEnum = {
   completedAt: 'completedAt',
   personalTags: 'personalTags',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  isFavorite: 'isFavorite'
 } as const
 
 export type UserGameScalarFieldEnum = (typeof UserGameScalarFieldEnum)[keyof typeof UserGameScalarFieldEnum]
@@ -1994,10 +2220,43 @@ export const ActivityScalarFieldEnum = {
   status: 'status',
   ratingScore: 'ratingScore',
   createdAt: 'createdAt',
-  reviewLikeId: 'reviewLikeId'
+  reviewLikeId: 'reviewLikeId',
+  recommendationId: 'recommendationId'
 } as const
 
 export type ActivityScalarFieldEnum = (typeof ActivityScalarFieldEnum)[keyof typeof ActivityScalarFieldEnum]
+
+
+export const GameRecommendationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  sourceGameId: 'sourceGameId',
+  recommendedGameId: 'recommendedGameId',
+  body: 'body',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type GameRecommendationScalarFieldEnum = (typeof GameRecommendationScalarFieldEnum)[keyof typeof GameRecommendationScalarFieldEnum]
+
+
+export const RecommendationAspectScalarFieldEnum = {
+  id: 'id',
+  recommendationId: 'recommendationId',
+  type: 'type'
+} as const
+
+export type RecommendationAspectScalarFieldEnum = (typeof RecommendationAspectScalarFieldEnum)[keyof typeof RecommendationAspectScalarFieldEnum]
+
+
+export const RecommendationSupportScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  recommendationId: 'recommendationId',
+  createdAt: 'createdAt'
+} as const
+
+export type RecommendationSupportScalarFieldEnum = (typeof RecommendationSupportScalarFieldEnum)[keyof typeof RecommendationSupportScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -2118,6 +2377,20 @@ export type EnumActivityTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$Pri
  * Reference to a field of type 'ActivityType[]'
  */
 export type ListEnumActivityTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ActivityType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'RecommendationAspectType'
+ */
+export type EnumRecommendationAspectTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RecommendationAspectType'>
+    
+
+
+/**
+ * Reference to a field of type 'RecommendationAspectType[]'
+ */
+export type ListEnumRecommendationAspectTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RecommendationAspectType[]'>
     
 
 
@@ -2303,6 +2576,9 @@ export type GlobalOmitConfig = {
   favorite?: Prisma.FavoriteOmit
   userFollow?: Prisma.UserFollowOmit
   activity?: Prisma.ActivityOmit
+  gameRecommendation?: Prisma.GameRecommendationOmit
+  recommendationAspect?: Prisma.RecommendationAspectOmit
+  recommendationSupport?: Prisma.RecommendationSupportOmit
 }
 
 /* Types for Logging */

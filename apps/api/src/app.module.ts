@@ -13,6 +13,7 @@ import { AdminModule } from './admin/admin.module';
 import { RatingsModule } from './ratings/ratings.module';
 import { ReviewsModule } from './reviews/reviews.module';
 import { UsersModule } from "./users/users.module";
+import { RecommendationsModule,} from './recommendations/recommendations.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { UsersModule } from "./users/users.module";
     RatingsModule,
     ReviewsModule,
     UsersModule,
+    RecommendationsModule,
   ],
 
   controllers: [

@@ -68,7 +68,10 @@ export const ModelName = {
   ReviewLike: 'ReviewLike',
   Favorite: 'Favorite',
   UserFollow: 'UserFollow',
-  Activity: 'Activity'
+  Activity: 'Activity',
+  GameRecommendation: 'GameRecommendation',
+  RecommendationAspect: 'RecommendationAspect',
+  RecommendationSupport: 'RecommendationSupport'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -197,7 +200,8 @@ export const UserGameScalarFieldEnum = {
   completedAt: 'completedAt',
   personalTags: 'personalTags',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  isFavorite: 'isFavorite'
 } as const
 
 export type UserGameScalarFieldEnum = (typeof UserGameScalarFieldEnum)[keyof typeof UserGameScalarFieldEnum]
@@ -276,10 +280,43 @@ export const ActivityScalarFieldEnum = {
   status: 'status',
   ratingScore: 'ratingScore',
   createdAt: 'createdAt',
-  reviewLikeId: 'reviewLikeId'
+  reviewLikeId: 'reviewLikeId',
+  recommendationId: 'recommendationId'
 } as const
 
 export type ActivityScalarFieldEnum = (typeof ActivityScalarFieldEnum)[keyof typeof ActivityScalarFieldEnum]
+
+
+export const GameRecommendationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  sourceGameId: 'sourceGameId',
+  recommendedGameId: 'recommendedGameId',
+  body: 'body',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type GameRecommendationScalarFieldEnum = (typeof GameRecommendationScalarFieldEnum)[keyof typeof GameRecommendationScalarFieldEnum]
+
+
+export const RecommendationAspectScalarFieldEnum = {
+  id: 'id',
+  recommendationId: 'recommendationId',
+  type: 'type'
+} as const
+
+export type RecommendationAspectScalarFieldEnum = (typeof RecommendationAspectScalarFieldEnum)[keyof typeof RecommendationAspectScalarFieldEnum]
+
+
+export const RecommendationSupportScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  recommendationId: 'recommendationId',
+  createdAt: 'createdAt'
+} as const
+
+export type RecommendationSupportScalarFieldEnum = (typeof RecommendationSupportScalarFieldEnum)[keyof typeof RecommendationSupportScalarFieldEnum]
 
 
 export const SortOrder = {

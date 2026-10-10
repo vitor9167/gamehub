@@ -44,6 +44,7 @@ export type ActivityMinAggregateOutputType = {
   ratingScore: number | null
   createdAt: Date | null
   reviewLikeId: string | null
+  recommendationId: string | null
 }
 
 export type ActivityMaxAggregateOutputType = {
@@ -56,6 +57,7 @@ export type ActivityMaxAggregateOutputType = {
   ratingScore: number | null
   createdAt: Date | null
   reviewLikeId: string | null
+  recommendationId: string | null
 }
 
 export type ActivityCountAggregateOutputType = {
@@ -68,6 +70,7 @@ export type ActivityCountAggregateOutputType = {
   ratingScore: number
   createdAt: number
   reviewLikeId: number
+  recommendationId: number
   _all: number
 }
 
@@ -90,6 +93,7 @@ export type ActivityMinAggregateInputType = {
   ratingScore?: true
   createdAt?: true
   reviewLikeId?: true
+  recommendationId?: true
 }
 
 export type ActivityMaxAggregateInputType = {
@@ -102,6 +106,7 @@ export type ActivityMaxAggregateInputType = {
   ratingScore?: true
   createdAt?: true
   reviewLikeId?: true
+  recommendationId?: true
 }
 
 export type ActivityCountAggregateInputType = {
@@ -114,6 +119,7 @@ export type ActivityCountAggregateInputType = {
   ratingScore?: true
   createdAt?: true
   reviewLikeId?: true
+  recommendationId?: true
   _all?: true
 }
 
@@ -213,6 +219,7 @@ export type ActivityGroupByOutputType = {
   ratingScore: number | null
   createdAt: Date
   reviewLikeId: string | null
+  recommendationId: string | null
   _count: ActivityCountAggregateOutputType | null
   _avg: ActivityAvgAggregateOutputType | null
   _sum: ActivitySumAggregateOutputType | null
@@ -248,10 +255,12 @@ export type ActivityWhereInput = {
   ratingScore?: Prisma.IntNullableFilter<"Activity"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Activity"> | Date | string
   reviewLikeId?: Prisma.UuidNullableFilter<"Activity"> | string | null
+  recommendationId?: Prisma.UuidNullableFilter<"Activity"> | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   game?: Prisma.XOR<Prisma.GameNullableScalarRelationFilter, Prisma.GameWhereInput> | null
   review?: Prisma.XOR<Prisma.ReviewNullableScalarRelationFilter, Prisma.ReviewWhereInput> | null
   reviewLike?: Prisma.XOR<Prisma.ReviewLikeNullableScalarRelationFilter, Prisma.ReviewLikeWhereInput> | null
+  recommendation?: Prisma.XOR<Prisma.GameRecommendationNullableScalarRelationFilter, Prisma.GameRecommendationWhereInput> | null
 }
 
 export type ActivityOrderByWithRelationInput = {
@@ -264,10 +273,12 @@ export type ActivityOrderByWithRelationInput = {
   ratingScore?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   reviewLikeId?: Prisma.SortOrderInput | Prisma.SortOrder
+  recommendationId?: Prisma.SortOrderInput | Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   game?: Prisma.GameOrderByWithRelationInput
   review?: Prisma.ReviewOrderByWithRelationInput
   reviewLike?: Prisma.ReviewLikeOrderByWithRelationInput
+  recommendation?: Prisma.GameRecommendationOrderByWithRelationInput
 }
 
 export type ActivityWhereUniqueInput = Prisma.AtLeast<{
@@ -283,10 +294,12 @@ export type ActivityWhereUniqueInput = Prisma.AtLeast<{
   ratingScore?: Prisma.IntNullableFilter<"Activity"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Activity"> | Date | string
   reviewLikeId?: Prisma.UuidNullableFilter<"Activity"> | string | null
+  recommendationId?: Prisma.UuidNullableFilter<"Activity"> | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   game?: Prisma.XOR<Prisma.GameNullableScalarRelationFilter, Prisma.GameWhereInput> | null
   review?: Prisma.XOR<Prisma.ReviewNullableScalarRelationFilter, Prisma.ReviewWhereInput> | null
   reviewLike?: Prisma.XOR<Prisma.ReviewLikeNullableScalarRelationFilter, Prisma.ReviewLikeWhereInput> | null
+  recommendation?: Prisma.XOR<Prisma.GameRecommendationNullableScalarRelationFilter, Prisma.GameRecommendationWhereInput> | null
 }, "id">
 
 export type ActivityOrderByWithAggregationInput = {
@@ -299,6 +312,7 @@ export type ActivityOrderByWithAggregationInput = {
   ratingScore?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   reviewLikeId?: Prisma.SortOrderInput | Prisma.SortOrder
+  recommendationId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ActivityCountOrderByAggregateInput
   _avg?: Prisma.ActivityAvgOrderByAggregateInput
   _max?: Prisma.ActivityMaxOrderByAggregateInput
@@ -319,6 +333,7 @@ export type ActivityScalarWhereWithAggregatesInput = {
   ratingScore?: Prisma.IntNullableWithAggregatesFilter<"Activity"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Activity"> | Date | string
   reviewLikeId?: Prisma.UuidNullableWithAggregatesFilter<"Activity"> | string | null
+  recommendationId?: Prisma.UuidNullableWithAggregatesFilter<"Activity"> | string | null
 }
 
 export type ActivityCreateInput = {
@@ -331,6 +346,7 @@ export type ActivityCreateInput = {
   game?: Prisma.GameCreateNestedOneWithoutActivitiesInput
   review?: Prisma.ReviewCreateNestedOneWithoutActivitiesInput
   reviewLike?: Prisma.ReviewLikeCreateNestedOneWithoutActivitiesInput
+  recommendation?: Prisma.GameRecommendationCreateNestedOneWithoutActivitiesInput
 }
 
 export type ActivityUncheckedCreateInput = {
@@ -343,6 +359,7 @@ export type ActivityUncheckedCreateInput = {
   ratingScore?: number | null
   createdAt?: Date | string
   reviewLikeId?: string | null
+  recommendationId?: string | null
 }
 
 export type ActivityUpdateInput = {
@@ -355,6 +372,7 @@ export type ActivityUpdateInput = {
   game?: Prisma.GameUpdateOneWithoutActivitiesNestedInput
   review?: Prisma.ReviewUpdateOneWithoutActivitiesNestedInput
   reviewLike?: Prisma.ReviewLikeUpdateOneWithoutActivitiesNestedInput
+  recommendation?: Prisma.GameRecommendationUpdateOneWithoutActivitiesNestedInput
 }
 
 export type ActivityUncheckedUpdateInput = {
@@ -367,6 +385,7 @@ export type ActivityUncheckedUpdateInput = {
   ratingScore?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reviewLikeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ActivityCreateManyInput = {
@@ -379,6 +398,7 @@ export type ActivityCreateManyInput = {
   ratingScore?: number | null
   createdAt?: Date | string
   reviewLikeId?: string | null
+  recommendationId?: string | null
 }
 
 export type ActivityUpdateManyMutationInput = {
@@ -399,6 +419,7 @@ export type ActivityUncheckedUpdateManyInput = {
   ratingScore?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reviewLikeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ActivityListRelationFilter = {
@@ -421,6 +442,7 @@ export type ActivityCountOrderByAggregateInput = {
   ratingScore?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   reviewLikeId?: Prisma.SortOrder
+  recommendationId?: Prisma.SortOrder
 }
 
 export type ActivityAvgOrderByAggregateInput = {
@@ -437,6 +459,7 @@ export type ActivityMaxOrderByAggregateInput = {
   ratingScore?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   reviewLikeId?: Prisma.SortOrder
+  recommendationId?: Prisma.SortOrder
 }
 
 export type ActivityMinOrderByAggregateInput = {
@@ -449,6 +472,7 @@ export type ActivityMinOrderByAggregateInput = {
   ratingScore?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   reviewLikeId?: Prisma.SortOrder
+  recommendationId?: Prisma.SortOrder
 }
 
 export type ActivitySumOrderByAggregateInput = {
@@ -631,6 +655,48 @@ export type NullableEnumGameStatusFieldUpdateOperationsInput = {
   set?: $Enums.GameStatus | null
 }
 
+export type ActivityCreateNestedManyWithoutRecommendationInput = {
+  create?: Prisma.XOR<Prisma.ActivityCreateWithoutRecommendationInput, Prisma.ActivityUncheckedCreateWithoutRecommendationInput> | Prisma.ActivityCreateWithoutRecommendationInput[] | Prisma.ActivityUncheckedCreateWithoutRecommendationInput[]
+  connectOrCreate?: Prisma.ActivityCreateOrConnectWithoutRecommendationInput | Prisma.ActivityCreateOrConnectWithoutRecommendationInput[]
+  createMany?: Prisma.ActivityCreateManyRecommendationInputEnvelope
+  connect?: Prisma.ActivityWhereUniqueInput | Prisma.ActivityWhereUniqueInput[]
+}
+
+export type ActivityUncheckedCreateNestedManyWithoutRecommendationInput = {
+  create?: Prisma.XOR<Prisma.ActivityCreateWithoutRecommendationInput, Prisma.ActivityUncheckedCreateWithoutRecommendationInput> | Prisma.ActivityCreateWithoutRecommendationInput[] | Prisma.ActivityUncheckedCreateWithoutRecommendationInput[]
+  connectOrCreate?: Prisma.ActivityCreateOrConnectWithoutRecommendationInput | Prisma.ActivityCreateOrConnectWithoutRecommendationInput[]
+  createMany?: Prisma.ActivityCreateManyRecommendationInputEnvelope
+  connect?: Prisma.ActivityWhereUniqueInput | Prisma.ActivityWhereUniqueInput[]
+}
+
+export type ActivityUpdateManyWithoutRecommendationNestedInput = {
+  create?: Prisma.XOR<Prisma.ActivityCreateWithoutRecommendationInput, Prisma.ActivityUncheckedCreateWithoutRecommendationInput> | Prisma.ActivityCreateWithoutRecommendationInput[] | Prisma.ActivityUncheckedCreateWithoutRecommendationInput[]
+  connectOrCreate?: Prisma.ActivityCreateOrConnectWithoutRecommendationInput | Prisma.ActivityCreateOrConnectWithoutRecommendationInput[]
+  upsert?: Prisma.ActivityUpsertWithWhereUniqueWithoutRecommendationInput | Prisma.ActivityUpsertWithWhereUniqueWithoutRecommendationInput[]
+  createMany?: Prisma.ActivityCreateManyRecommendationInputEnvelope
+  set?: Prisma.ActivityWhereUniqueInput | Prisma.ActivityWhereUniqueInput[]
+  disconnect?: Prisma.ActivityWhereUniqueInput | Prisma.ActivityWhereUniqueInput[]
+  delete?: Prisma.ActivityWhereUniqueInput | Prisma.ActivityWhereUniqueInput[]
+  connect?: Prisma.ActivityWhereUniqueInput | Prisma.ActivityWhereUniqueInput[]
+  update?: Prisma.ActivityUpdateWithWhereUniqueWithoutRecommendationInput | Prisma.ActivityUpdateWithWhereUniqueWithoutRecommendationInput[]
+  updateMany?: Prisma.ActivityUpdateManyWithWhereWithoutRecommendationInput | Prisma.ActivityUpdateManyWithWhereWithoutRecommendationInput[]
+  deleteMany?: Prisma.ActivityScalarWhereInput | Prisma.ActivityScalarWhereInput[]
+}
+
+export type ActivityUncheckedUpdateManyWithoutRecommendationNestedInput = {
+  create?: Prisma.XOR<Prisma.ActivityCreateWithoutRecommendationInput, Prisma.ActivityUncheckedCreateWithoutRecommendationInput> | Prisma.ActivityCreateWithoutRecommendationInput[] | Prisma.ActivityUncheckedCreateWithoutRecommendationInput[]
+  connectOrCreate?: Prisma.ActivityCreateOrConnectWithoutRecommendationInput | Prisma.ActivityCreateOrConnectWithoutRecommendationInput[]
+  upsert?: Prisma.ActivityUpsertWithWhereUniqueWithoutRecommendationInput | Prisma.ActivityUpsertWithWhereUniqueWithoutRecommendationInput[]
+  createMany?: Prisma.ActivityCreateManyRecommendationInputEnvelope
+  set?: Prisma.ActivityWhereUniqueInput | Prisma.ActivityWhereUniqueInput[]
+  disconnect?: Prisma.ActivityWhereUniqueInput | Prisma.ActivityWhereUniqueInput[]
+  delete?: Prisma.ActivityWhereUniqueInput | Prisma.ActivityWhereUniqueInput[]
+  connect?: Prisma.ActivityWhereUniqueInput | Prisma.ActivityWhereUniqueInput[]
+  update?: Prisma.ActivityUpdateWithWhereUniqueWithoutRecommendationInput | Prisma.ActivityUpdateWithWhereUniqueWithoutRecommendationInput[]
+  updateMany?: Prisma.ActivityUpdateManyWithWhereWithoutRecommendationInput | Prisma.ActivityUpdateManyWithWhereWithoutRecommendationInput[]
+  deleteMany?: Prisma.ActivityScalarWhereInput | Prisma.ActivityScalarWhereInput[]
+}
+
 export type ActivityCreateWithoutUserInput = {
   id?: string
   type: $Enums.ActivityType
@@ -640,6 +706,7 @@ export type ActivityCreateWithoutUserInput = {
   game?: Prisma.GameCreateNestedOneWithoutActivitiesInput
   review?: Prisma.ReviewCreateNestedOneWithoutActivitiesInput
   reviewLike?: Prisma.ReviewLikeCreateNestedOneWithoutActivitiesInput
+  recommendation?: Prisma.GameRecommendationCreateNestedOneWithoutActivitiesInput
 }
 
 export type ActivityUncheckedCreateWithoutUserInput = {
@@ -651,6 +718,7 @@ export type ActivityUncheckedCreateWithoutUserInput = {
   ratingScore?: number | null
   createdAt?: Date | string
   reviewLikeId?: string | null
+  recommendationId?: string | null
 }
 
 export type ActivityCreateOrConnectWithoutUserInput = {
@@ -692,6 +760,7 @@ export type ActivityScalarWhereInput = {
   ratingScore?: Prisma.IntNullableFilter<"Activity"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Activity"> | Date | string
   reviewLikeId?: Prisma.UuidNullableFilter<"Activity"> | string | null
+  recommendationId?: Prisma.UuidNullableFilter<"Activity"> | string | null
 }
 
 export type ActivityCreateWithoutGameInput = {
@@ -703,6 +772,7 @@ export type ActivityCreateWithoutGameInput = {
   user: Prisma.UserCreateNestedOneWithoutActivitiesInput
   review?: Prisma.ReviewCreateNestedOneWithoutActivitiesInput
   reviewLike?: Prisma.ReviewLikeCreateNestedOneWithoutActivitiesInput
+  recommendation?: Prisma.GameRecommendationCreateNestedOneWithoutActivitiesInput
 }
 
 export type ActivityUncheckedCreateWithoutGameInput = {
@@ -714,6 +784,7 @@ export type ActivityUncheckedCreateWithoutGameInput = {
   ratingScore?: number | null
   createdAt?: Date | string
   reviewLikeId?: string | null
+  recommendationId?: string | null
 }
 
 export type ActivityCreateOrConnectWithoutGameInput = {
@@ -751,6 +822,7 @@ export type ActivityCreateWithoutReviewInput = {
   user: Prisma.UserCreateNestedOneWithoutActivitiesInput
   game?: Prisma.GameCreateNestedOneWithoutActivitiesInput
   reviewLike?: Prisma.ReviewLikeCreateNestedOneWithoutActivitiesInput
+  recommendation?: Prisma.GameRecommendationCreateNestedOneWithoutActivitiesInput
 }
 
 export type ActivityUncheckedCreateWithoutReviewInput = {
@@ -762,6 +834,7 @@ export type ActivityUncheckedCreateWithoutReviewInput = {
   ratingScore?: number | null
   createdAt?: Date | string
   reviewLikeId?: string | null
+  recommendationId?: string | null
 }
 
 export type ActivityCreateOrConnectWithoutReviewInput = {
@@ -799,6 +872,7 @@ export type ActivityCreateWithoutReviewLikeInput = {
   user: Prisma.UserCreateNestedOneWithoutActivitiesInput
   game?: Prisma.GameCreateNestedOneWithoutActivitiesInput
   review?: Prisma.ReviewCreateNestedOneWithoutActivitiesInput
+  recommendation?: Prisma.GameRecommendationCreateNestedOneWithoutActivitiesInput
 }
 
 export type ActivityUncheckedCreateWithoutReviewLikeInput = {
@@ -810,6 +884,7 @@ export type ActivityUncheckedCreateWithoutReviewLikeInput = {
   status?: $Enums.GameStatus | null
   ratingScore?: number | null
   createdAt?: Date | string
+  recommendationId?: string | null
 }
 
 export type ActivityCreateOrConnectWithoutReviewLikeInput = {
@@ -838,6 +913,56 @@ export type ActivityUpdateManyWithWhereWithoutReviewLikeInput = {
   data: Prisma.XOR<Prisma.ActivityUpdateManyMutationInput, Prisma.ActivityUncheckedUpdateManyWithoutReviewLikeInput>
 }
 
+export type ActivityCreateWithoutRecommendationInput = {
+  id?: string
+  type: $Enums.ActivityType
+  status?: $Enums.GameStatus | null
+  ratingScore?: number | null
+  createdAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutActivitiesInput
+  game?: Prisma.GameCreateNestedOneWithoutActivitiesInput
+  review?: Prisma.ReviewCreateNestedOneWithoutActivitiesInput
+  reviewLike?: Prisma.ReviewLikeCreateNestedOneWithoutActivitiesInput
+}
+
+export type ActivityUncheckedCreateWithoutRecommendationInput = {
+  id?: string
+  type: $Enums.ActivityType
+  userId: string
+  gameId?: string | null
+  reviewId?: string | null
+  status?: $Enums.GameStatus | null
+  ratingScore?: number | null
+  createdAt?: Date | string
+  reviewLikeId?: string | null
+}
+
+export type ActivityCreateOrConnectWithoutRecommendationInput = {
+  where: Prisma.ActivityWhereUniqueInput
+  create: Prisma.XOR<Prisma.ActivityCreateWithoutRecommendationInput, Prisma.ActivityUncheckedCreateWithoutRecommendationInput>
+}
+
+export type ActivityCreateManyRecommendationInputEnvelope = {
+  data: Prisma.ActivityCreateManyRecommendationInput | Prisma.ActivityCreateManyRecommendationInput[]
+  skipDuplicates?: boolean
+}
+
+export type ActivityUpsertWithWhereUniqueWithoutRecommendationInput = {
+  where: Prisma.ActivityWhereUniqueInput
+  update: Prisma.XOR<Prisma.ActivityUpdateWithoutRecommendationInput, Prisma.ActivityUncheckedUpdateWithoutRecommendationInput>
+  create: Prisma.XOR<Prisma.ActivityCreateWithoutRecommendationInput, Prisma.ActivityUncheckedCreateWithoutRecommendationInput>
+}
+
+export type ActivityUpdateWithWhereUniqueWithoutRecommendationInput = {
+  where: Prisma.ActivityWhereUniqueInput
+  data: Prisma.XOR<Prisma.ActivityUpdateWithoutRecommendationInput, Prisma.ActivityUncheckedUpdateWithoutRecommendationInput>
+}
+
+export type ActivityUpdateManyWithWhereWithoutRecommendationInput = {
+  where: Prisma.ActivityScalarWhereInput
+  data: Prisma.XOR<Prisma.ActivityUpdateManyMutationInput, Prisma.ActivityUncheckedUpdateManyWithoutRecommendationInput>
+}
+
 export type ActivityCreateManyUserInput = {
   id?: string
   type: $Enums.ActivityType
@@ -847,6 +972,7 @@ export type ActivityCreateManyUserInput = {
   ratingScore?: number | null
   createdAt?: Date | string
   reviewLikeId?: string | null
+  recommendationId?: string | null
 }
 
 export type ActivityUpdateWithoutUserInput = {
@@ -858,6 +984,7 @@ export type ActivityUpdateWithoutUserInput = {
   game?: Prisma.GameUpdateOneWithoutActivitiesNestedInput
   review?: Prisma.ReviewUpdateOneWithoutActivitiesNestedInput
   reviewLike?: Prisma.ReviewLikeUpdateOneWithoutActivitiesNestedInput
+  recommendation?: Prisma.GameRecommendationUpdateOneWithoutActivitiesNestedInput
 }
 
 export type ActivityUncheckedUpdateWithoutUserInput = {
@@ -869,6 +996,7 @@ export type ActivityUncheckedUpdateWithoutUserInput = {
   ratingScore?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reviewLikeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ActivityUncheckedUpdateManyWithoutUserInput = {
@@ -880,6 +1008,7 @@ export type ActivityUncheckedUpdateManyWithoutUserInput = {
   ratingScore?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reviewLikeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ActivityCreateManyGameInput = {
@@ -891,6 +1020,7 @@ export type ActivityCreateManyGameInput = {
   ratingScore?: number | null
   createdAt?: Date | string
   reviewLikeId?: string | null
+  recommendationId?: string | null
 }
 
 export type ActivityUpdateWithoutGameInput = {
@@ -902,6 +1032,7 @@ export type ActivityUpdateWithoutGameInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutActivitiesNestedInput
   review?: Prisma.ReviewUpdateOneWithoutActivitiesNestedInput
   reviewLike?: Prisma.ReviewLikeUpdateOneWithoutActivitiesNestedInput
+  recommendation?: Prisma.GameRecommendationUpdateOneWithoutActivitiesNestedInput
 }
 
 export type ActivityUncheckedUpdateWithoutGameInput = {
@@ -913,6 +1044,7 @@ export type ActivityUncheckedUpdateWithoutGameInput = {
   ratingScore?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reviewLikeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ActivityUncheckedUpdateManyWithoutGameInput = {
@@ -924,6 +1056,7 @@ export type ActivityUncheckedUpdateManyWithoutGameInput = {
   ratingScore?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reviewLikeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ActivityCreateManyReviewInput = {
@@ -935,6 +1068,7 @@ export type ActivityCreateManyReviewInput = {
   ratingScore?: number | null
   createdAt?: Date | string
   reviewLikeId?: string | null
+  recommendationId?: string | null
 }
 
 export type ActivityUpdateWithoutReviewInput = {
@@ -946,6 +1080,7 @@ export type ActivityUpdateWithoutReviewInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutActivitiesNestedInput
   game?: Prisma.GameUpdateOneWithoutActivitiesNestedInput
   reviewLike?: Prisma.ReviewLikeUpdateOneWithoutActivitiesNestedInput
+  recommendation?: Prisma.GameRecommendationUpdateOneWithoutActivitiesNestedInput
 }
 
 export type ActivityUncheckedUpdateWithoutReviewInput = {
@@ -957,6 +1092,7 @@ export type ActivityUncheckedUpdateWithoutReviewInput = {
   ratingScore?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reviewLikeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ActivityUncheckedUpdateManyWithoutReviewInput = {
@@ -968,6 +1104,7 @@ export type ActivityUncheckedUpdateManyWithoutReviewInput = {
   ratingScore?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reviewLikeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ActivityCreateManyReviewLikeInput = {
@@ -979,6 +1116,7 @@ export type ActivityCreateManyReviewLikeInput = {
   status?: $Enums.GameStatus | null
   ratingScore?: number | null
   createdAt?: Date | string
+  recommendationId?: string | null
 }
 
 export type ActivityUpdateWithoutReviewLikeInput = {
@@ -990,6 +1128,7 @@ export type ActivityUpdateWithoutReviewLikeInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutActivitiesNestedInput
   game?: Prisma.GameUpdateOneWithoutActivitiesNestedInput
   review?: Prisma.ReviewUpdateOneWithoutActivitiesNestedInput
+  recommendation?: Prisma.GameRecommendationUpdateOneWithoutActivitiesNestedInput
 }
 
 export type ActivityUncheckedUpdateWithoutReviewLikeInput = {
@@ -1001,6 +1140,7 @@ export type ActivityUncheckedUpdateWithoutReviewLikeInput = {
   status?: Prisma.NullableEnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus | null
   ratingScore?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  recommendationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ActivityUncheckedUpdateManyWithoutReviewLikeInput = {
@@ -1012,6 +1152,55 @@ export type ActivityUncheckedUpdateManyWithoutReviewLikeInput = {
   status?: Prisma.NullableEnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus | null
   ratingScore?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  recommendationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type ActivityCreateManyRecommendationInput = {
+  id?: string
+  type: $Enums.ActivityType
+  userId: string
+  gameId?: string | null
+  reviewId?: string | null
+  status?: $Enums.GameStatus | null
+  ratingScore?: number | null
+  createdAt?: Date | string
+  reviewLikeId?: string | null
+}
+
+export type ActivityUpdateWithoutRecommendationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
+  status?: Prisma.NullableEnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus | null
+  ratingScore?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutActivitiesNestedInput
+  game?: Prisma.GameUpdateOneWithoutActivitiesNestedInput
+  review?: Prisma.ReviewUpdateOneWithoutActivitiesNestedInput
+  reviewLike?: Prisma.ReviewLikeUpdateOneWithoutActivitiesNestedInput
+}
+
+export type ActivityUncheckedUpdateWithoutRecommendationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  gameId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus | null
+  ratingScore?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reviewLikeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type ActivityUncheckedUpdateManyWithoutRecommendationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  gameId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus | null
+  ratingScore?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reviewLikeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -1026,10 +1215,12 @@ export type ActivitySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   ratingScore?: boolean
   createdAt?: boolean
   reviewLikeId?: boolean
+  recommendationId?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   game?: boolean | Prisma.Activity$gameArgs<ExtArgs>
   review?: boolean | Prisma.Activity$reviewArgs<ExtArgs>
   reviewLike?: boolean | Prisma.Activity$reviewLikeArgs<ExtArgs>
+  recommendation?: boolean | Prisma.Activity$recommendationArgs<ExtArgs>
 }, ExtArgs["result"]["activity"]>
 
 export type ActivitySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1042,10 +1233,12 @@ export type ActivitySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   ratingScore?: boolean
   createdAt?: boolean
   reviewLikeId?: boolean
+  recommendationId?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   game?: boolean | Prisma.Activity$gameArgs<ExtArgs>
   review?: boolean | Prisma.Activity$reviewArgs<ExtArgs>
   reviewLike?: boolean | Prisma.Activity$reviewLikeArgs<ExtArgs>
+  recommendation?: boolean | Prisma.Activity$recommendationArgs<ExtArgs>
 }, ExtArgs["result"]["activity"]>
 
 export type ActivitySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1058,10 +1251,12 @@ export type ActivitySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   ratingScore?: boolean
   createdAt?: boolean
   reviewLikeId?: boolean
+  recommendationId?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   game?: boolean | Prisma.Activity$gameArgs<ExtArgs>
   review?: boolean | Prisma.Activity$reviewArgs<ExtArgs>
   reviewLike?: boolean | Prisma.Activity$reviewLikeArgs<ExtArgs>
+  recommendation?: boolean | Prisma.Activity$recommendationArgs<ExtArgs>
 }, ExtArgs["result"]["activity"]>
 
 export type ActivitySelectScalar = {
@@ -1074,26 +1269,30 @@ export type ActivitySelectScalar = {
   ratingScore?: boolean
   createdAt?: boolean
   reviewLikeId?: boolean
+  recommendationId?: boolean
 }
 
-export type ActivityOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "userId" | "gameId" | "reviewId" | "status" | "ratingScore" | "createdAt" | "reviewLikeId", ExtArgs["result"]["activity"]>
+export type ActivityOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "userId" | "gameId" | "reviewId" | "status" | "ratingScore" | "createdAt" | "reviewLikeId" | "recommendationId", ExtArgs["result"]["activity"]>
 export type ActivityInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   game?: boolean | Prisma.Activity$gameArgs<ExtArgs>
   review?: boolean | Prisma.Activity$reviewArgs<ExtArgs>
   reviewLike?: boolean | Prisma.Activity$reviewLikeArgs<ExtArgs>
+  recommendation?: boolean | Prisma.Activity$recommendationArgs<ExtArgs>
 }
 export type ActivityIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   game?: boolean | Prisma.Activity$gameArgs<ExtArgs>
   review?: boolean | Prisma.Activity$reviewArgs<ExtArgs>
   reviewLike?: boolean | Prisma.Activity$reviewLikeArgs<ExtArgs>
+  recommendation?: boolean | Prisma.Activity$recommendationArgs<ExtArgs>
 }
 export type ActivityIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   game?: boolean | Prisma.Activity$gameArgs<ExtArgs>
   review?: boolean | Prisma.Activity$reviewArgs<ExtArgs>
   reviewLike?: boolean | Prisma.Activity$reviewLikeArgs<ExtArgs>
+  recommendation?: boolean | Prisma.Activity$recommendationArgs<ExtArgs>
 }
 
 export type $ActivityPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1103,6 +1302,7 @@ export type $ActivityPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     game: Prisma.$GamePayload<ExtArgs> | null
     review: Prisma.$ReviewPayload<ExtArgs> | null
     reviewLike: Prisma.$ReviewLikePayload<ExtArgs> | null
+    recommendation: Prisma.$GameRecommendationPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1114,6 +1314,7 @@ export type $ActivityPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     ratingScore: number | null
     createdAt: Date
     reviewLikeId: string | null
+    recommendationId: string | null
   }, ExtArgs["result"]["activity"]>
   composites: {}
 }
@@ -1512,6 +1713,7 @@ export interface Prisma__ActivityClient<T, Null = never, ExtArgs extends runtime
   game<T extends Prisma.Activity$gameArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Activity$gameArgs<ExtArgs>>): Prisma.Prisma__GameClient<runtime.Types.Result.GetResult<Prisma.$GamePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   review<T extends Prisma.Activity$reviewArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Activity$reviewArgs<ExtArgs>>): Prisma.Prisma__ReviewClient<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   reviewLike<T extends Prisma.Activity$reviewLikeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Activity$reviewLikeArgs<ExtArgs>>): Prisma.Prisma__ReviewLikeClient<runtime.Types.Result.GetResult<Prisma.$ReviewLikePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  recommendation<T extends Prisma.Activity$recommendationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Activity$recommendationArgs<ExtArgs>>): Prisma.Prisma__GameRecommendationClient<runtime.Types.Result.GetResult<Prisma.$GameRecommendationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1550,6 +1752,7 @@ export interface ActivityFieldRefs {
   readonly ratingScore: Prisma.FieldRef<"Activity", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Activity", 'DateTime'>
   readonly reviewLikeId: Prisma.FieldRef<"Activity", 'String'>
+  readonly recommendationId: Prisma.FieldRef<"Activity", 'String'>
 }
     
 
@@ -2005,6 +2208,25 @@ export type Activity$reviewLikeArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   include?: Prisma.ReviewLikeInclude<ExtArgs> | null
   where?: Prisma.ReviewLikeWhereInput
+}
+
+/**
+ * Activity.recommendation
+ */
+export type Activity$recommendationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the GameRecommendation
+   */
+  select?: Prisma.GameRecommendationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the GameRecommendation
+   */
+  omit?: Prisma.GameRecommendationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GameRecommendationInclude<ExtArgs> | null
+  where?: Prisma.GameRecommendationWhereInput
 }
 
 /**

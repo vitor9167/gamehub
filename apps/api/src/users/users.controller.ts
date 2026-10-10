@@ -69,6 +69,34 @@ getFeed(
   );
 }
 
+@Get(":username/recommendations")
+findRecommendations(
+  @Param("username")
+  username: string,
+
+  @Query("page")
+  page?: string,
+
+  @Query("limit")
+  limit?: string,
+) {
+  return this.usersService.findRecommendations(
+    username,
+    Number(page) || 1,
+    Number(limit) || 6,
+  );
+}
+
+@Get(":username/activity")
+findActivity(
+  @Param("username")
+  username: string,
+) {
+  return this.usersService.findActivity(
+    username,
+  );
+}
+
   @Get(":username")
   findByUsername(
     @Param("username")
@@ -79,13 +107,33 @@ getFeed(
     );
   }
 
-  @Get(":username/library")
+@Get(":username/library")
 findLibrary(
   @Param("username")
   username: string,
+
+  @Query("page")
+  page?: string,
+
+  @Query("limit")
+  limit?: string,
+
+  @Query("status")
+  status?: string,
+
+  @Query("search")
+  search?: string,
+
+  @Query("sort")
+  sort?: string,
 ) {
   return this.usersService.findLibrary(
     username,
+    Number(page) || 1,
+    Number(limit) || 12,
+    status,
+    search,
+    sort,
   );
 }
 
@@ -93,9 +141,17 @@ findLibrary(
 findReviews(
   @Param("username")
   username: string,
+
+  @Query("page")
+  page?: string,
+
+  @Query("limit")
+  limit?: string,
 ) {
   return this.usersService.findReviews(
     username,
+    Number(page) || 1,
+    Number(limit) || 6,
   );
 }
 

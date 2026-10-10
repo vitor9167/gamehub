@@ -42,83 +42,101 @@ export class GamesService {
 }
   
 
-  async findAll(filters: FindGamesDto) {
-    const {
-      search,
-      genre,
-      platform,
-      page = 1,
-      limit = 12,
-    } = filters;
+async findAll(filters: FindGamesDto) {
+  const {
+    search,
+    genre,
+    platform,
+    page = 1,
+    limit = 12,
+    sort = 'title',
+  } = filters;
 
-    const skip = (page - 1) * limit;
+  const skip =
+    (page - 1) * limit;
 
-    const where = {
-      ...(search && {
-        title: {
-          contains: search,
-          mode: 'insensitive' as const,
-        },
-      }),
+  const where = {
+    ...(search && {
+      title: {
+        contains: search,
+        mode:
+          'insensitive' as const,
+      },
+    }),
 
-      ...(genre && {
-        genres: {
-          some: {
-            genre: {
-              name: {
-                equals: genre,
-                mode: 'insensitive' as const,
-              },
+    ...(genre && {
+      genres: {
+        some: {
+          genre: {
+            name: {
+              equals: genre,
+              mode:
+                'insensitive' as const,
             },
           },
         },
-      }),
+      },
+    }),
 
-      ...(platform && {
-        platforms: {
-          some: {
-            platform: {
-              name: {
-                equals: platform,
-                mode: 'insensitive' as const,
-              },
+    ...(platform && {
+      platforms: {
+        some: {
+          platform: {
+            name: {
+              equals: platform,
+              mode:
+                'insensitive' as const,
             },
           },
         },
-      }),
-    };
+      },
+    }),
+  };
 
-    const [games, total] =
-      await Promise.all([
-        this.prisma.game.findMany({
-          where,
-
-          include: {
-            genres: {
-              include: {
-                genre: true,
-              },
-            },
-
-            platforms: {
-              include: {
-                platform: true,
-              },
-            },
-          },
-
-          orderBy: {
+  const orderBy:
+    Prisma.GameOrderByWithRelationInput =
+    sort === 'recent'
+      ? {
+          createdAt: 'desc',
+        }
+      : sort === 'release'
+        ? {
+            releaseDate: 'desc',
+          }
+        : {
             title: 'asc',
+          };
+
+  const [games, total] =
+    await Promise.all([
+      this.prisma.game.findMany({
+        where,
+
+        include: {
+          genres: {
+            include: {
+              genre: true,
+            },
           },
 
-          skip,
-          take: limit,
-        }),
+          platforms: {
+            include: {
+              platform: true,
+            },
+          },
+        },
 
-        this.prisma.game.count({
-          where,
-        }),
-      ]);
+        orderBy,
+
+        skip,
+
+        take: limit,
+      }),
+
+      this.prisma.game.count({
+        where,
+      }),
+    ]);
 
     const items = games.map(
       (game) => ({

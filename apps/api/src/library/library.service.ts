@@ -1,6 +1,7 @@
 import {
   Injectable,
   NotFoundException,
+  BadRequestException,
 } from '@nestjs/common';
 
 import { PrismaService } from '../prisma/prisma.service';
@@ -216,6 +217,87 @@ export class LibraryService {
       },
     );
   }
+
+  async setFavorite(
+  userId: string,
+  gameId: string,
+  isFavorite: boolean,
+) {
+  const libraryGame =
+    await this.prisma.userGame.findUnique({
+      where: {
+        userId_gameId: {
+          userId,
+          gameId,
+        },
+      },
+
+      select: {
+        id: true,
+        isFavorite: true,
+      },
+    });
+
+  if (!libraryGame) {
+    throw new NotFoundException(
+      'Jogo não encontrado na biblioteca do usuário.',
+    );
+  }
+
+  if (
+    isFavorite &&
+    !libraryGame.isFavorite
+  ) {
+    const favoriteCount =
+      await this.prisma.userGame.count({
+        where: {
+          userId,
+          isFavorite: true,
+        },
+      });
+
+    if (favoriteCount >= 5) {
+      throw new BadRequestException(
+        'Você pode ter no máximo 5 jogos favoritos.',
+      );
+    }
+  }
+
+  const updatedEntry =
+    await this.prisma.userGame.update({
+      where: {
+        userId_gameId: {
+          userId,
+          gameId,
+        },
+      },
+
+      data: {
+        isFavorite,
+      },
+
+      include: {
+        game: true,
+      },
+    });
+
+  return {
+    id: updatedEntry.id,
+    gameId: updatedEntry.gameId,
+    isFavorite:
+      updatedEntry.isFavorite,
+
+    game: {
+      id: updatedEntry.game.id,
+      title:
+        updatedEntry.game.title,
+      slug:
+        updatedEntry.game.slug,
+      coverUrl:
+        updatedEntry.game.coverUrl,
+    },
+  };
+}
 
   async removeGame(
     userId: string,

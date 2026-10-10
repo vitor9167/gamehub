@@ -34,7 +34,24 @@ export const ActivityType = {
   LIBRARY_STATUS_CHANGED: 'LIBRARY_STATUS_CHANGED',
   REVIEW_CREATED: 'REVIEW_CREATED',
   RATING_CREATED: 'RATING_CREATED',
-  RATING_UPDATED: 'RATING_UPDATED'
+  RATING_UPDATED: 'RATING_UPDATED',
+  RECOMMENDATION_CREATED: 'RECOMMENDATION_CREATED'
 } as const
 
 export type ActivityType = (typeof ActivityType)[keyof typeof ActivityType]
+
+
+export const RecommendationAspectType = {
+  STORY: 'STORY',
+  GAMEPLAY: 'GAMEPLAY',
+  MECHANICS: 'MECHANICS',
+  ATMOSPHERE: 'ATMOSPHERE',
+  EXPLORATION: 'EXPLORATION',
+  PROGRESSION: 'PROGRESSION',
+  DIFFICULTY: 'DIFFICULTY',
+  MULTIPLAYER: 'MULTIPLAYER',
+  ART_STYLE: 'ART_STYLE',
+  SOUNDTRACK: 'SOUNDTRACK'
+} as const
+
+export type RecommendationAspectType = (typeof RecommendationAspectType)[keyof typeof RecommendationAspectType]
